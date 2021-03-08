@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'users',
     'products',
     'django_filters',
+    'carts',
     #'rest_framework.authtoken'
 ]
 
