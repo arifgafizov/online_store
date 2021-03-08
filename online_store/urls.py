@@ -15,6 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from drf_yasg import openapi
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title='Online store DRF API',
+        default_version='v1',
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 api_urlpatterns = [
     path('products/', include(('products.urls', 'products'), namespace='products')),
@@ -25,4 +38,5 @@ api_urlpatterns = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(api_urlpatterns)),
+    path('docs/', schema_view.with_ui('swagger', cache_timeout=0)),
 ]
