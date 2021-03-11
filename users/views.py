@@ -1,8 +1,6 @@
 from django.db import IntegrityError
 from rest_framework import status
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import User
@@ -12,8 +10,6 @@ from .serializers import UserSerializer
 class CurrentUserRetrieveUpdateView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-#    permission_classes = [IsAuthenticated]
-#    authentication_classes = (TokenAuthentication,)
 
     def get_object(self):
         return self.request.user
