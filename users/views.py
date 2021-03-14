@@ -1,6 +1,7 @@
 from django.db import IntegrityError
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from .models import User
@@ -18,6 +19,7 @@ class CurrentUserRetrieveUpdateView(RetrieveUpdateAPIView):
 class RegisterUserView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
 
     # handle a unique login
     def create(self, request, *args, **kwargs):
