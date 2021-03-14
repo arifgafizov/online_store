@@ -4,10 +4,10 @@ from django.db import models
 from products.models import Product
 
 
-user = get_user_model()
+user_model = get_user_model()
 class Cart(models.Model):
     products = models.ManyToManyField(to=Product, through="CartProduct", help_text='товар')
-    user = models.OneToOneField(user, related_name='carts',
+    user = models.OneToOneField(user_model, related_name='carts',
                                 on_delete=models.CASCADE,
                                 help_text='пользователь')
 
