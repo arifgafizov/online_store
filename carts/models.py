@@ -11,6 +11,13 @@ class Cart(models.Model):
                                 on_delete=models.CASCADE,
                                 help_text='пользователь')
 
+    class Meta:
+        verbose_name = 'корзина'
+        verbose_name_plural = 'корзины'
+
+    def __str__(self):
+        return 'cart of ' + self.cart_id
+
 
 class CartProduct(models.Model):
     product = models.ForeignKey(Product, related_name='cart_products',
@@ -21,10 +28,3 @@ class CartProduct(models.Model):
                             help_text='корзина')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
     meta_info = models.JSONField('мета информация', default=dict)
-
-    class Meta:
-        verbose_name = 'корзина'
-        verbose_name_plural = 'корзины'
-
-    def __str__(self):
-        return 'cart of ' + self.cart_id
