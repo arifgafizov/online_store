@@ -32,9 +32,9 @@ schema_view = get_schema_view(
 )
 
 api_urlpatterns = [
-    path('products/', include(('products.urls', 'products'), namespace='products')),
+    path('', include(('products.urls', 'products'), namespace='products')),
     path('users/', include('users.urls')),
-    path('carts/', include('carts.urls')),
+    path('', include('carts.urls')),
 ]
 
 urlpatterns = [
