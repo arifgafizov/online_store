@@ -6,5 +6,5 @@ from users.views import RegisterUserView, CurrentUserRetrieveUpdateView
 urlpatterns = [
     path('auth/login/',  obtain_auth_token),
     path('auth/register/', RegisterUserView.as_view(), name='register'),
-    path('current/', CurrentUserRetrieveUpdateView.as_view(), name='current'),
+    path('auth/current/', CurrentUserRetrieveUpdateView.as_view(), name='current'),
 ]
