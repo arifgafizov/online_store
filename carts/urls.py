@@ -1,8 +1,7 @@
 from rest_framework.routers import DefaultRouter
 
-from .views import CartViewSet, AddProductViewSet
+from .views import CartProductViewSet
 
 router = DefaultRouter()
-router.register('carts', CartViewSet, basename='cart')
-router.register('add-products', AddProductViewSet, basename='add-product')
+router.register('cart-products', CartProductViewSet, basename='cart-product')
 urlpatterns = router.urls
