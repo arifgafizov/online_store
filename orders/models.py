@@ -11,6 +11,8 @@ class Order(BaseModel):
     address = models.CharField('адрес доставки', max_length=200)
     phone = models.CharField('номер телефона', max_length=50)
     status = models.CharField('статус заказа', max_length=100, choices=choices)
+    products = models.JSONField("Продукты заказа", blank=True, default=dict)
+    metadata = models.JSONField("Данные заказа", blank=True, default=dict)
 
     class Meta:
         verbose_name = 'заказ'
