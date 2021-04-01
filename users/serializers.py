@@ -17,8 +17,3 @@ class UserSerializer(ModelSerializer):
             'phone_number',
             'address',
         ]
-        #read_only_fields = ['id', 'username']
-        #extra_kwargs = {
-        #    'phone_number': {'required': False},
-        #    'middle_name': {'required': False},
-        #}
