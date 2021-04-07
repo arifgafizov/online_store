@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
+import braintree
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -195,3 +196,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_ITEMS_IMAGE_DIR = 'products_images'
+
+# payment system
+gateway = braintree.BraintreeGateway(
+    braintree.Configuration(
+        braintree.Environment.Sandbox,
+        merchant_id="vyc2pz9x6pjkr7p3",
+        public_key="h5c4tj4kdkwhmf72",
+        private_key="79083a64cf3368d7b813884de757b9f6",
+    )
+)
