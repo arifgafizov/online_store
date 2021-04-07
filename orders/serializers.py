@@ -44,3 +44,9 @@ class OrderSerializer(serializers.ModelSerializer):
         if len(attrs['products']) == 0:
             raise serializers.ValidationError('корзина для заказа не может быть пустой')
         return attrs
+
+class PayClientTokenSerializer(serializers.Serializer):
+    token = serializers.CharField()
+
+class PayChekoutSerializer(serializers.Serializer):
+    nonce = serializers.CharField()
