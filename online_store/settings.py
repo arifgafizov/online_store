@@ -68,7 +68,7 @@ AUTH_USER_MODEL = 'users.User'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['template'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,7 +92,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-# customization of swager by token authentication
+# customization of swagger by token authentication
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Token': {
