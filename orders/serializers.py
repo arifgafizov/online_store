@@ -19,7 +19,6 @@ class OrderSerializer(serializers.ModelSerializer):
                   ]
         read_only_fields = ['id',
                             'status',
-                            #'delivery_at',
                             'products',
                             'total_price'
                             ]
@@ -45,8 +44,10 @@ class OrderSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('корзина для заказа не может быть пустой')
         return attrs
 
+
 class PayClientTokenSerializer(serializers.Serializer):
     token = serializers.CharField()
+
 
 class PayChekoutSerializer(serializers.Serializer):
     nonce = serializers.CharField()
