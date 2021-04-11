@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Checkout</title>
+  </head>
+  <body>
+    <button id="start-payment-button">start-payment</button>
+
+    <div id="dropin-container"></div>
+    <button id="submit-button">Request payment method</button>
+
+    <script src="https://js.braintreegateway.com/web/dropin/1.27.0/js/dropin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+      const startPaymentButton = document.querySelector('#start-payment-button');
+      var button = document.querySelector('#submit-button');
+
+
+      startPaymentButton.addEventListener('click', function () {
+
+      axios
+        .post('/api/v1/orders/39/pay-client-token/', {}, {
+        headers: {
+          Authorization: "Token 796aff865a47f2b479707b6b40c7299061055b6e"
+          }
+        })
+        .then(response => {
+        console.log('response from api')
+        console.log(response)
+        const token = response.data.token
+        braintree.dropin.create({
+            authorization: token,
+            container: '#dropin-container'
+            }, function (createErr, instance) {
+            button.addEventListener('click', function () {
+            instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
+            console.log('braintree submit payload')
+            console.log(requestPaymentMethodErr)
+            console.log(payload)
+            const nonce = payload.nonce
+
+            axios
+              .post('/api/v1/orders/39/pay-chekout/', {
+              nonce: nonce
+              }, {
+              headers: {
+              Authorization: "Token 796aff865a47f2b479707b6b40c7299061055b6e"
+                }
+              })
+              .then(response =>{
+                console.log('chekout response')
+                console.log(response)
+              })
+            // Submit payload.nonce to your server
+              });
+            });
+          });
+        });
+      });
+
+    </script>
+  </body>
+</html>
