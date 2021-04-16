@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from drf_yasg.utils import swagger_auto_schema, no_body
@@ -44,8 +45,9 @@ class OrderViewSet(mixins.CreateModelMixin,
         order_id = kwargs['pk']
         order = get_object_or_404(Order, pk=order_id)
         if order.status != ORDER_STATUS_CREATED:
-            return Response(data={'reason': f"can't processed order in status {order.status}"}, status=status.HTTP_400_BAD_REQUEST)
-        # generate client_token and save it and time of order in DB
+            return Response(data={'reason': f"can't processed order in status {order.status}"},\
+                            status=status.HTTP_400_BAD_REQUEST)
+        # generate client_token and save it and time of order in DB with isoformat()
         token = gateway.client_token.generate({})
         order.metadata['token'] = token
         order.metadata['time_of_order'] = datetime.now().isoformat()
@@ -61,40 +63,58 @@ class OrderViewSet(mixins.CreateModelMixin,
     @action(detail=True, methods=['post'], url_path='pay-chekout')
     def create_purchase(self,  request, *args, **kwargs):
         order_id = kwargs['pk']
-        order = get_object_or_404(Order, pk=order_id)
-        if order.status != ORDER_STATUS_CREATED:
-            return Response(data={'reason': f"can't processed order in status {order.status}"}, status=status.HTTP_400_BAD_REQUEST)
+        # transaction.atomic() гарантирует атомарность операций над БД блока кода
+        with transaction.atomic():
+            # получение queryset с блокировкой строки до конца завершения транзакции
+            order_queryset = Order.objects.select_for_update()
+            # getting order and validation
+            order = get_object_or_404(order_queryset, pk=order_id)
+            if order.status != ORDER_STATUS_CREATED:
+                return Response(data={'reason': f"can't processed order in status {order.status}"},\
+                                status=status.HTTP_400_BAD_REQUEST)
 
-        # TODO Response возвращает объект успешного платежа
-        serializer = PayChekoutSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+            # сериализация из запроса nonce
+            serializer = PayChekoutSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            nonce = serializer.validated_data['nonce']
 
-        nonce = serializer.validated_data['nonce']
-        #print(serializer.validated_data)
-        print(nonce)
-        result = gateway.transaction.sale({
-            "amount": order.total_price,
-            "payment_method_nonce": nonce,
-            "options": {
-                "submit_for_settlement": True
+            # создание транзакции с использованием nonce
+            result = gateway.transaction.sale({
+                "amount": order.total_price,
+                "payment_method_nonce": nonce,
+                "options": {
+                    "submit_for_settlement": True
+                }
+            })
+            # сбор данных платежа в переменную transaction_data
+            transaction_data = {
+                'transaction_id': result.transaction.id,
+                'credit_card': result.transaction.credit_card,
+                'amount': str(result.transaction.amount),
+                'currency_iso_code': result.transaction.currency_iso_code,
+                'merchant_account_id': result.transaction.merchant_account_id,
+                'merchant_address': result.transaction.merchant_address,
+                'merchant_identification_number': result.transaction.merchant_identification_number,
+                'network_transaction_id': result.transaction.network_transaction_id,
+                'updated_at': result.transaction.updated_at.isoformat(),
             }
-        })
-        #print(result)
-
-        if result.is_success:
-            pass
-            # TODO действие по завершению платежа, положить result в метадату, сменить статус заказа на оплачен
-            # TODO вернуть объект заказа обернув его в сериализатор
-            # order.metadata['result'] = result
-            # order.status = ORDER_STATUS_PAID
-            # order.save()
-            # serializer = self.get_queryset(order)
-            return Response('ok', status=status.HTTP_201_CREATED)
-        #TODO ELSE вернуть Response(resurn ,400), с причиной отказа например не хватило денег или токен протух, почитать в апи
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-        # https://articles.braintreepayments.com/control-panel/transactions/declines
-
-        #TODO отдельный вью рендерить шаблон фронтендовой части с формой оплаты, поключить ихнюю библиотеку + axios используя drop-in
+            # При успешном платеже сохранение transaction_data в метадату в БД и смена статуса заказ на paid
+            if result.is_success:
+                order.metadata['result'] = transaction_data
+                order.status = ORDER_STATUS_PAID
+                order.save()
+                serializer = self.get_serializer(order)
+                return Response(data=serializer.data, status=status.HTTP_200_OK)
+            # error handler
+            errors = []
+            for error in result.errors.deep_errors:
+                errors.append(error)
+            if 'errors' not in order.metadata:
+                order.metadata['errors'] = {}
+            order.metadata['errors'][result.transaction.id] = errors
+            order.save()
+            return Response(data={'code_error': 'PAYMENT_TRANSACTION_FAILED', 'errors': errors}, \
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class TestPaymentView(TemplateView):
