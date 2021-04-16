@@ -14,12 +14,17 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
+      // получение элемента с id start-payment-button и добавление его в переменную startPaymentButton
       const startPaymentButton = document.querySelector('#start-payment-button');
       var button = document.querySelector('#submit-button');
 
-
+      // подключение обработчика нажатия к переменной startPaymentButton
       startPaymentButton.addEventListener('click', function () {
 
+      // после завершения метода пост с заголовком авторизации, получением response, выполняется анонимная функция (=>)
+      // с выводом в консоль браузера (console.log)
+      // и присвоением переменной token токена из data принимаемого объекта response
+      // далее создание braintree.dropin с  console.log
       axios
         .post('/api/v1/orders/39/pay-client-token/', {}, {
         headers: {
@@ -39,8 +44,10 @@
             console.log('braintree submit payload')
             console.log(requestPaymentMethodErr)
             console.log(payload)
+            // присвоение переменной nonce payload.nonce
             const nonce = payload.nonce
 
+            // пост запрос на pay-chekout с телом запроса в кот. поле nonce с переменной nonce и заголовком авторизации
             axios
               .post('/api/v1/orders/39/pay-chekout/', {
               nonce: nonce
