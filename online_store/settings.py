@@ -31,8 +31,9 @@ SECRET_KEY = '49w8#7hu*vyy8p&%8*tvb$-vf@b8u3n8wz4f5dn5i)or$_^k#s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS']
+if ALLOWED_HOSTS != '*':
+    ALLOWED_HOSTS = ALLOWED_HOSTS.split(',')
 
 # Application definition
 #customization carts for the admin panel
