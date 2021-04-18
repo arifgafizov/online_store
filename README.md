@@ -22,3 +22,13 @@ CREATE USER online_store CREATEDB LOGIN PASSWORD 'super_mega_store_password';
 CREATE DATABASE online_store WITH OWNER = online_store CONNECTION LIMIT = -1;
 GRANT ALL PRIVILEGES ON DATABASE online_store to online_store;
 ```
+
+```bash
+docker run -d --name web-store --network="local-apps" -p 8000:8000 -v ~/online_store:/web_django web-django
+```
+
+```bash
+docker run --rm --network="local-apps" -v ~/online_store:/web_django \
+  web-django python3 ./manage.py migrate
+```
+
