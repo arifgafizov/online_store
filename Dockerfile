@@ -6,6 +6,7 @@ WORKDIR /web_django/
 
 COPY . /web_django/
 RUN pip install -r requirements.txt
+RUN python3 manage.py collectstatic --noinput
 
 EXPOSE 8000
 
