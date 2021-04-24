@@ -32,3 +32,11 @@ docker run --rm --network="local-apps" -v ~/online_store:/web_django \
   web-django python3 ./manage.py migrate
 ```
 
+```bash
+docker run --name nginx-1.20 \
+    -v $(pwd)/nginx/conf/nginx.conf:/etc/nginx/conf.d/default.conf \
+    -p 8000:80 \
+    --network="local-apps" \
+    --restart always \
+    -d nginx:1.20.0-alpine
+```
