@@ -12,6 +12,7 @@ class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = ProductPageNumberPagination
+    permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = ProductFilter
     filterset_fields = ['price']
