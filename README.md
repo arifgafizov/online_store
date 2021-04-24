@@ -33,10 +33,23 @@ docker run --rm --network="local-apps" -v ~/online_store:/web_django \
 ```
 
 ```bash
+docker run --rm --network="local-apps" -v ~/online_store:/web_django \
+  web-django python3 ./manage.py collectstatic
+```
+
+```bash
 docker run --name nginx-1.20 \
-    -v $(pwd)/nginx/conf/nginx.conf:/etc/nginx/conf.d/default.conf \
-    -p 8000:80 \
+    -v /root/online_store/nginx/conf/nginx.conf:/etc/nginx/conf.d/default.conf \
+    -v /root/online_store/static/:/opt/static/ \
+    -v /root/front_for_web_shop/dist/spa:/opt/spa \
+    -p 80:80 \
     --network="local-apps" \
     --restart always \
     -d nginx:1.20.0-alpine
+```
+
+```bash
+docker run -it --rm \
+    -v /root/front_for_web_shop/:/front_for_web_shop/ \
+    node bash
 ```
