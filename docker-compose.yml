@@ -9,3 +9,7 @@ services:
         - ~/online_store:/web_django
       networks:
         - local-apps
+
+networks:
+  local-apps:
+    driver: bridge
