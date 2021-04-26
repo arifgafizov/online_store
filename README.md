@@ -53,3 +53,7 @@ docker run -it --rm \
     -v /root/front_for_web_shop/:/front_for_web_shop/ \
     node bash
 ```
+
+```bash
+docker-compose up -d
+```
