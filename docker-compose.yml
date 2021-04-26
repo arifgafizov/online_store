@@ -2,16 +2,21 @@ version: '3.1'
 
 services:
     web-store:
-      build:
-        context: .
-        dockerfile: Dockerfile
+      image: web-django
+      container_name: web-store
+      env_file: .env
+      expose:
+        - 8000
       ports:
-        - 8000:8000
+        - "8000:8000"
       volumes:
         - ~/online_store:/web_django
       networks:
         - local-apps
+      external_links:
+        - nginx-1.20
+        - local-pg13
 
 networks:
   local-apps:
-    driver: bridge
+    external: true
