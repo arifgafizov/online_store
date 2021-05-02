@@ -211,3 +211,7 @@ gateway = braintree.BraintreeGateway(
         private_key="79083a64cf3368d7b813884de757b9f6",
     )
 )
+
+# celery
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
