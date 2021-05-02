@@ -57,3 +57,12 @@ docker run -it --rm \
 ```bash
 docker-compose up -d
 ```
+
+```bash
+docker run -d --name local-redis --network="local-apps" -p 6379:6379 redis
+```
+
+```bash
+celery -A online_store worker -l INFO
+```
+
