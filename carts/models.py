@@ -16,7 +16,7 @@ class Cart(models.Model):
         verbose_name_plural = 'корзины'
 
     def __str__(self):
-        return 'cart of ' + self.cart_id
+        return 'cart of ' + str(self.id)
 
 
 class CartProduct(models.Model):
