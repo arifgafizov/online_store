@@ -1,5 +1,7 @@
 from celery import shared_task
+
 from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
 
 from orders.models import Order
 
@@ -9,7 +11,7 @@ def send_mail_order_status(order_id):
     """
        Отправка уведомления о статуса заказа по электронной почте.
     """
-    order = Order.objects.get(id=order_id)
+    order = get_object_or_404(Order, pk=order_id)
     client_name = order.cart.user.first_name
     client_email = order.cart.user.email
     subject = f'Order nr. {order_id}'
