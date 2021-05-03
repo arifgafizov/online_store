@@ -212,6 +212,15 @@ gateway = braintree.BraintreeGateway(
     )
 )
 
-# celery
+# celery settings
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
+# email settings
+EMAIL_HOST = 'smtp.rambler.ru'
+EMAIL_PORT = 465 # 2525
+EMAIL_HOST_USER = 'arif_test@rambler.ru'
+EMAIL_HOST_PASSWORD = 'Gafizov85'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
