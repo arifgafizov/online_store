@@ -7,15 +7,15 @@ from orders.models import Order
 
 
 @shared_task
-def send_mail_order_status(order_id):
+def send_mail_order_status(order_id, order_status):
     """
        Отправка уведомления о статуса заказа по электронной почте.
     """
     order = get_object_or_404(Order, pk=order_id)
     client_name = order.cart.user.first_name
     client_email = order.cart.user.email
-    subject = f'Order nr. {order_id}'
-    message = f'Dear {client_name},\nStatus your order is {order.status}.'
+    subject = f'Order nr. {order.id}'
+    message = f'Dear {client_name},\nStatus your order is {order_status}.'
 
     mail_sent = send_mail(subject,
                           message,
