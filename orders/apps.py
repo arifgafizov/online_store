@@ -5,4 +5,4 @@ class OrdersConfig(AppConfig):
     name = 'orders'
 
     def ready(self):
-        from .signals import check_status
+        from .signals import pre_save_status, post_save_status
