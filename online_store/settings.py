@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '49w8#7hu*vyy8p&%8*tvb$-vf@b8u3n8wz4f5dn5i)or$_^k#s'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -216,10 +216,10 @@ gateway = braintree.BraintreeGateway(
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 # email settings
-EMAIL_HOST = 'smtp.rambler.ru'
+EMAIL_HOST = 'smtp.mail.ru' #'smtp.rambler.ru'
 EMAIL_PORT = 465 # 2525
-EMAIL_HOST_USER = 'arif_test@rambler.ru'
-EMAIL_HOST_PASSWORD = 'Gafizov85'
+EMAIL_HOST_USER = os.environ['EMAIL']
+EMAIL_HOST_PASSWORD = os.environ['PASSWORD']
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
