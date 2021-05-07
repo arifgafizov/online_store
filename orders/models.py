@@ -6,6 +6,12 @@ from orders.orders_constants import ORDER_STATUSES, ORDER_STATUS_CREATED
 
 
 class Order(BaseModel):
+    # добавление в конструктор модели переменной контекст
+    # объект класса будет создаваться вместе с этой переменной, частной для кажддого инстанса
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.context = {}
+
     cart = models.ForeignKey(Cart, related_name='orders', on_delete=models.CASCADE, help_text='корзина заказа')
     delivery_at = models.DateTimeField(verbose_name='дата доставки')
     address = models.CharField('адрес доставки', max_length=200)
