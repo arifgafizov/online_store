@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Web store</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<!--TODO при не авторизированном юзере отображать страницу логина, иначе все остальное -->
+<!--TODO получить данные юзера  -->
+<!--TODO выполнить процеса логина  -->
+<main id="app" class="container">
+    <div class="row">
+        <div style="background-color: white" class="col-8 col-lg-4 offset-2 offset-lg-4">
+            <form class="form-signin pt-5">
+                <div class="text-center mt-5 b-1">
+
+                    <h1 class="h3 mb-3 font-weight-normal">Web store</h1>
+                    <p class="h6 font-weight-light">Please, enter your login and password</p>
+                </div>
+                <div class="mt-5 form-label-group">
+                    <p class="text-muted">Login</p>
+                    <input class="form-control" type="text" id="username" name="username">
+                    <label for="username"></label>
+
+                </div>
+                <div class="form-label-group">
+                    <p class="text-muted"> Password</p>
+                    <input class="form-control" type="password" id="password" name="password">
+                    <label for="password"></label>
+
+                </div>
+                <div class="checkbox mb-3"></div>
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Sign in</button>
+            </form>
+            <div class="mt-4 text-center"><p><a href="/api/v1/users/auth/register/">Sign up</a></p></div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <br>
+        <h4 class="display-6">This is products list</h4>
+        <br>
+        <ul class="list-unstyled">
+            <ol>
+                <li v-for="todo in todos">
+                    {{ todo.text }}
+                </li>
+            </ol>
+        </ul>
+    </div>
+
+    <div class="row">
+        <br>
+        <h4 class="display-6">Detail product</h4>
+        <br>
+        <div class="col-12 col-md-8 col-lg-9">
+            <h2 class="h2 pb-2">title</h2>
+            <p class="mb-2">description</p>
+            <p class="mb-2">price</p>
+            <p class="mb-2">weight</p>
+        </div>
+
+    </div>
+</main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script type="text/javascript" src="{% static 'main.js' %}?revision1"></script>
+</body>
+</html>
