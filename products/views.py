@@ -1,3 +1,4 @@
+from django.views.generic import TemplateView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import AllowAny
@@ -18,3 +19,6 @@ class ProductViewSet(ModelViewSet):
     filterset_class = ProductFilter
     filterset_fields = ['price']
     ordering = ['price']
+
+class IndexView(TemplateView):
+    template_name = 'index.html'
