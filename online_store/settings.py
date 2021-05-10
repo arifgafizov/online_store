@@ -109,7 +109,7 @@ SWAGGER_SETTINGS = {
 
 # Add sentry configuration
 sentry_sdk.init(
-    dsn="https://2c0d0813324e4d75814f44475539a679@o552801.ingest.sentry.io/5679136",
+    dsn=os.environ['SENTRY_DSN'],
     integrations=[DjangoIntegration()],
 
     # Set traces_sample_rate to 1.0 to capture 100%
@@ -156,7 +156,7 @@ DATABASES = {
         'USER': os.environ['DATABASE_USER'],
         'PASSWORD': os.environ['DATABASE_PASSWORD'],
         'HOST': os.environ['DATABASE_HOST'],
-        'PORT': '5432'
+        'PORT': os.environ['DATABASE_PORT']
     }
 }
 
@@ -206,9 +206,9 @@ MEDIA_ITEMS_IMAGE_DIR = 'products_images'
 gateway = braintree.BraintreeGateway(
     braintree.Configuration(
         braintree.Environment.Sandbox,
-        merchant_id="vyc2pz9x6pjkr7p3",
-        public_key="h5c4tj4kdkwhmf72",
-        private_key="79083a64cf3368d7b813884de757b9f6",
+        merchant_id=os.environ['BRAINTREE_MERCHANT_ID'],
+        public_key=os.environ['BRAINTREE_PUBLIC_KEY'],
+        private_key=os.environ['BRAINTREE_PRIVATE_KEY'],
     )
 )
 
