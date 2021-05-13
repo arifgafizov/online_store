@@ -29,7 +29,7 @@ var app = new Vue({
           console.debug(data)
           this.checkAuthLoading = false
        }).catch((err) => {
-          if (err.response?.status === 401) {
+          if (err.response?.status === 404) {
 
             this.isAuthenticated = true
 
