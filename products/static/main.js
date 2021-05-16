@@ -2,9 +2,10 @@ var app = new Vue({
     el: '#app',
     data: {
       todos: [
-        { text: 'Foo' },
-        { text: 'Bar' }
-      ],
+            { text: 'Foo1' },
+            { text: 'Bar1' }
+          ],
+      products: [],
       username: '',
       password: '',
       isAuthenticated: true
@@ -40,6 +41,15 @@ var app = new Vue({
        .then(({data}) => {
           console.debug(data)
           this.isAuthenticated = true
+          axios.get('/api/v1/products/')
+            .then((response) => {
+                console.log(response)
+//              добавление в products списка товаров полученного из response data results
+                this.products.push(response.data.results)
+                console.log(this.products)
+
+
+            })
           this.checkAuthLoading = false
        }).catch((err) => {
           if (err.response?.status === 401) {
