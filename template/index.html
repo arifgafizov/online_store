@@ -10,11 +10,10 @@
 <!--    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>-->
 </head>
 <body>
-<!--TODO при не авторизированном юзере отображать страницу логина, иначе все остальное -->
-<!--TODO получить данные юзера  -->
-<!--TODO выполнить процеса логина  -->
+<!--TODO получить список товара и вывести его. При нажати на товар получить его детализацию и отобразить-->
+<!--TODO * сделать переключение детали на отдельной странице с кнопкой назад-->
 <main id="app" class="container">
-    <div v-if="isAuthenticated" class="row">
+    <div v-if="!isAuthenticated" class="row">
         <div style="background-color: white" class="col-8 col-lg-4 offset-2 offset-lg-4">
             <form class="form-signin pt-5">
                 <div class="text-center mt-5 b-1">
@@ -37,14 +36,14 @@
 
                 </div>
                 <div class="checkbox mb-3"></div>
-                <button @click.prevent="onSubmit(username, password)" class="btn btn-primary btn-lg btn-block" type="submit">Sign in</button>
+                <button @click.prevent="onSubmit" class="btn btn-primary btn-lg btn-block" type="submit">Sign in</button>
             </form>
             <div class="mt-4 text-center"><p><a href="/api/v1/users/auth/register/">Sign up</a></p></div>
 
         </div>
     </div>
 
-    <template v-else="isAuthenticated">
+    <template v-else>
 
         <div class="row">
             <br>
@@ -75,7 +74,9 @@
 </main>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-<!--    <script type="text/javascript" src="{% static 'main.js' %}?revision1"></script>-->
-    <script type="text/javascript" src="/online_store/products/static/main.js"></script>
+
+    <script type="text/javascript" src="{% static 'main.js' %}?revision1"></script>
+
+<!--    <script type="text/javascript" src="/online_store/products/static/main.js"></script>-->
 </body>
 </html>

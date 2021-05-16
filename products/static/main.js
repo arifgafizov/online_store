@@ -8,15 +8,18 @@ var app = new Vue({
       ],
       username: '',
       password: '',
-      isAuthenticated: false
+      isAuthenticated: true
     },
     methods: {
-        onSubmit: function (username, password) {
+        onSubmit: function () {
             axios.post('/api/v1/users/auth/login/', {
-                'username': username,
-                'password': password,
-            }).then(function(response) {
+                'username': this.username,
+                'password': this.password,
+            }).then((response) => {
                 console.log(response)
+                const token = response.data.token
+                localStorage.setItem('AUTH_TOKEN', token)
+                this.isAuthenticated = true
             }).catch(function(error) {
                 console.log(error)
                 alert(error)
@@ -24,14 +27,20 @@ var app = new Vue({
         }
     },
     created() {
-     axios.get('/api/v1/users/auth/current/')
+     const token = localStorage.getItem('AUTH_TOKEN')
+     axios.get('/api/v1/users/auth/current/', {
+        headers: {
+          Authorization: "Token " + token
+          }
+     })
        .then(({data}) => {
           console.debug(data)
+          this.isAuthenticated = true
           this.checkAuthLoading = false
        }).catch((err) => {
-          if (err.response?.status === 404) {
+          if (err.response?.status === 401) {
 
-            this.isAuthenticated = true
+            this.isAuthenticated = false
 
 
           } else {
