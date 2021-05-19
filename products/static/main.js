@@ -8,7 +8,8 @@ var app = new Vue({
       products: [],
       username: '',
       password: '',
-      isAuthenticated: true
+      isAuthenticated: true,
+      isActive: false
     },
     methods: {
         onSubmit: function () {
@@ -16,7 +17,7 @@ var app = new Vue({
             axios.post('/api/v1/users/auth/login/', {
                 'username': this.username,
                 'password': this.password,
-            }).then((response) => {
+            }).then ((response) => {
                 console.log(response)
 //              сохранение в переменной токена авторизации полученного из response data
                 const token = response.data.token
@@ -27,7 +28,10 @@ var app = new Vue({
                 console.log(error)
                 alert(error)
             })
-        }
+        },
+      inProduct: function (){
+        this.isActive = true
+      }
     },
     created() {
 //    сохранение в переменной токена авторизации полученного из localStorage
@@ -41,24 +45,21 @@ var app = new Vue({
        .then(({data}) => {
           console.debug(data)
           this.isAuthenticated = true
-          axios.get('/api/v1/products/')
-            .then((response) => {
-                console.log(response)
-//              добавление в products списка товаров полученного из response data results
-                this.products.push(response.data.results)
-                console.log(this.products)
-
-
-            })
           this.checkAuthLoading = false
        }).catch((err) => {
           if (err.response?.status === 401) {
-
             this.isAuthenticated = false
-
-
           } else {
         }
       })
+     },
+     mounted() {
+          axios.get('/api/v1/products/').then(response => {
+            console.log(response)
+//          добавление в products списка товаров полученного из response data results
+//            this.products = response.data.results
+            this.products.push(response.data.results)
+            console.log(this.products)
+          })
      }
 })

@@ -49,17 +49,17 @@
         <br>
         <ul class="list-unstyled">
               <ol>
-                  <li v-for="todo in todos" :key="todo.text">
-                    {{ todo.text }}
+                  {% verbatim %}
+                  <li v-for="(product, index) in products">
+<!--                    <a href="/api/v1/products/{{index}}"><h5 class="h5 pb-5">{{ product.title }}</h5></a>-->
+                    <h5 @click.prevent="onProduct"  class="h5 pb-5">{{ product.title }}</h5>
                   </li>
-                  <li v-for="product in products">
-                    {{ product }}
-                  </li>
+                  {% endverbatim %}
               </ol>
         </ul>
     </div>
 
-    <div class="row">
+    <div v-if="isActive" class="row">
         <br>
         <h4 class="display-6">Detail product</h4>
         <br>
