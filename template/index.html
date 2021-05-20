@@ -52,7 +52,7 @@
                   {% verbatim %}
                   <li v-for="(product, index) in products">
 <!--                    <a href="/api/v1/products/{{index}}"><h5 class="h5 pb-5">{{ product.title }}</h5></a>-->
-                    <h5 @click.prevent="onProduct"  class="h5 pb-5">{{ product.title }}</h5>
+                    <h5 @click.prevent="onProduct(product.id)"  class="h5 pb-5">{{ product.title }}</h5>
                   </li>
                   {% endverbatim %}
               </ol>
@@ -63,12 +63,14 @@
         <br>
         <h4 class="display-6">Detail product</h4>
         <br>
+        {% verbatim %}
         <div class="col-12 col-md-8 col-lg-9">
-            <h2 class="h2 pb-2">title</h2>
-            <p class="mb-2">description</p>
-            <p class="mb-2">price</p>
-            <p class="mb-2">weight</p>
+            <h5 class="h5 pb-5">{{ product_detail.title }}</h5>
+            <p class="mb-2">{{ product_detail.description }}</p>
+            <p class="mb-2">{{ product_detail.price }} руб.</p>
+            <p class="mb-2">{{ product_detail.weight }} г</p>
         </div>
+        {% endverbatim %}
     </div>
 
 <!--    </template>-->

@@ -6,6 +6,7 @@ var app = new Vue({
             { text: 'Bar1' }
           ],
       products: [],
+      product_detail: [],
       username: '',
       password: '',
       isAuthenticated: true,
@@ -29,8 +30,14 @@ var app = new Vue({
                 alert(error)
             })
         },
-      inProduct: function (){
+      onProduct: function (product_id){
         this.isActive = true
+        axios.get('/api/v1/products/' + product_id).then(response => {
+            console.log(response)
+//          добавление в product_detail детализации товара полученного из response data
+            this.product_detail = response.data
+            console.log(this.product_detail)
+          })
       }
     },
     created() {
@@ -57,8 +64,7 @@ var app = new Vue({
           axios.get('/api/v1/products/').then(response => {
             console.log(response)
 //          добавление в products списка товаров полученного из response data results
-//            this.products = response.data.results
-            this.products.push(response.data.results)
+            this.products = response.data.results
             console.log(this.products)
           })
      }
