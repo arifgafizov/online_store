@@ -1,10 +1,6 @@
 var app = new Vue({
     el: '#app',
     data: {
-      todos: [
-            { text: 'Foo1' },
-            { text: 'Bar1' }
-          ],
       products: [],
       product_detail: [],
       username: '',

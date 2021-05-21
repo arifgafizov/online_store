@@ -7,11 +7,12 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<!--    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>-->
 </head>
 <body>
-<!--TODO получить список товара и вывести его. При нажати на товар получить его детализацию и отобразить-->
+<!--TODO создадим отдельную страницу для получения списка товара и детализации + кнопка добавления товара в корзину + конпка перехода в cart-products-->
+<!--TODO создадим отдельную страницу для просмотра корзины cart-products-->
 <!--TODO * сделать переключение детали на отдельной странице с кнопкой назад-->
+{% verbatim %}
 <main id="app" class="container">
     <div v-if="!isAuthenticated" class="row">
         <div style="background-color: white" class="col-8 col-lg-4 offset-2 offset-lg-4">
@@ -34,49 +35,50 @@
 
                 </div>
                 <div class="checkbox mb-3"></div>
-                <button @click.prevent="onSubmit" class="btn btn-primary btn-lg btn-block" type="submit">Sign in</button>
+                <button @click.prevent="onSubmit" class="btn btn-primary btn-lg btn-block" type="submit">Sign in
+                </button>
             </form>
             <div class="mt-4 text-center"><p><a href="/api/v1/users/auth/register/">Sign up</a></p></div>
 
         </div>
     </div>
 
-<!--    <template v-else>-->
+    <!--    <template v-else>-->
 
     <div class="row" v-else>
-        <br>
-        <h4 class="display-6">This is products list</h4>
-        <br>
-        <ul class="list-unstyled">
-              <ol>
-                  {% verbatim %}
-                  <li v-for="(product, index) in products">
-<!--                    <a href="/api/v1/products/{{index}}"><h5 class="h5 pb-5">{{ product.title }}</h5></a>-->
-                    <h5 @click.prevent="onProduct(product.id)"  class="h5 pb-5">{{ product.title }}</h5>
-                  </li>
-                  {% endverbatim %}
-              </ol>
-        </ul>
-    </div>
-
-    <div v-if="isActive" class="row">
-        <br>
-        <h4 class="display-6">Detail product</h4>
-        <br>
-        {% verbatim %}
-        <div class="col-12 col-md-8 col-lg-9">
-            <h5 class="h5 pb-5">{{ product_detail.title }}</h5>
-            <p class="mb-2">{{ product_detail.description }}</p>
-            <p class="mb-2">{{ product_detail.price }} руб.</p>
-            <p class="mb-2">{{ product_detail.weight }} г</p>
+        <div v-if="isActive" class="row">
+            <br>
+            <h4 class="display-6">Detail product</h4>
+            <br>
+            <div class="col-12 col-md-8 col-lg-9">
+                <h5 class="h5 pb-5">{{ product_detail.title }}</h5>
+                <p class="mb-2">{{ product_detail.description }}</p>
+                <p class="mb-2">{{ product_detail.price }} руб.</p>
+                <p class="mb-2">{{ product_detail.weight }} г</p>
+            </div>
         </div>
-        {% endverbatim %}
+
+        <div v-else>
+            <br>
+            <h4 class="display-6">This is products list</h4>
+            <br>
+            <ul class="list-unstyled">
+                <ol>
+                    <li v-for="product in products">
+                        <a :href="'/api/v1/products/' + product.id" @click.prevent="onProduct(product.id)"><h5 class="h5 pb-5">{{ product.title }}</h5></a>
+<!--                        <h5 @click.prevent="onProduct(product.id)" class="h5 pb-5">{{ product.title }}</h5>-->
+                    </li>
+                </ol>
+            </ul>
+        </div>
     </div>
 
-<!--    </template>-->
+
+    <!--    </template>-->
 </main>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <script type="text/javascript" src="{% static 'main.js' %}?revision1"></script>
+{% endverbatim %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script type="text/javascript" src="{% static 'main.js' %}?revision1"></script>
 </body>
 </html>
