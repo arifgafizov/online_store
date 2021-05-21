@@ -46,27 +46,27 @@
     <!--    <template v-else>-->
 
     <div class="row" v-else>
-        <div v-if="isActive" class="row">
-            <br>
-            <h4 class="display-6">Detail product</h4>
-            <br>
-            <div class="col-12 col-md-8 col-lg-9">
-                <h5 class="h5 pb-5">{{ product_detail.title }}</h5>
-                <p class="mb-2">{{ product_detail.description }}</p>
-                <p class="mb-2">{{ product_detail.price }} руб.</p>
-                <p class="mb-2">{{ product_detail.weight }} г</p>
-            </div>
-        </div>
+<!--        <div v-if="isActive" class="row">-->
+<!--            <br>-->
+<!--            <h4 class="display-6">Detail product</h4>-->
+<!--            <br>-->
+<!--            <div class="col-12 col-md-8 col-lg-9">-->
+<!--                <h5 class="h5 pb-5">{{ product_detail.title }}</h5>-->
+<!--                <p class="mb-2">{{ product_detail.description }}</p>-->
+<!--                <p class="mb-2">{{ product_detail.price }} руб.</p>-->
+<!--                <p class="mb-2">{{ product_detail.weight }} г</p>-->
+<!--            </div>-->
+<!--        </div>-->
 
-        <div v-else>
+        <div v-if="isActive">
             <br>
-            <h4 class="display-6">This is products list</h4>
+            <h4 class="display-6">Products list in cart</h4>
             <br>
             <ul class="list-unstyled">
                 <ol>
-                    <li v-for="product in products">
-                        <a :href="'/api/v1/products/' + product.id" @click.prevent="onProduct(product.id)"><h5 class="h5 pb-5">{{ product.title }}</h5></a>
-<!--                        <h5 @click.prevent="onProduct(product.id)" class="h5 pb-5">{{ product.title }}</h5>-->
+                    <li v-for="cart_product in cart_products">
+<!--                        <a :href="'/api/v1/products/' + product.id" @click.prevent="onProduct(product.id)"><h5 class="h5 pb-5">{{ product.title }}</h5></a>-->
+                        <h5 class="h5 pb-5">{{ cart_product }}</h5>
                     </li>
                 </ol>
             </ul>

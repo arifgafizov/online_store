@@ -1,7 +1,7 @@
 var app = new Vue({
     el: '#app',
     data: {
-      products: [],
+      cart_products: [],
       product_detail: [],
       username: '',
       password: '',
@@ -57,11 +57,20 @@ var app = new Vue({
       })
      },
      mounted() {
-          axios.get('/api/v1/products/').then(response => {
+          this.isActive = true
+          //    сохранение в переменной токена авторизации полученного из localStorage
+          const token = localStorage.getItem('AUTH_TOKEN')
+          //     отправка гет запроса в заголовке которого токен авторизации
+          axios.get('/api/v1/cart-products/', {
+                headers: {
+                    Authorization: "Token " + token
+                }
+            }).then(response => {
+
             console.log(response)
-//          добавление в products списка товаров полученного из response data results
-            this.products = response.data.results
-            console.log(this.products)
+//          добавление в cart_products списка товаров корзины полученного из response data
+            this.cart_products = response.data
+            console.log(this.cart_products)
           })
      }
 })
