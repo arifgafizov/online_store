@@ -17,7 +17,7 @@ def pre_save_status(instance, **kwargs):
 @receiver(signal=signals.post_save, sender=Order)
 def post_save_status(instance, **kwargs):
     if kwargs.get('created'):
-        send_mail_create_order(instance.id)
+        send_mail_create_order.delay(instance.id)
     else:
         if not instance.status == instance.context['original_status']:
             send_mail_order_status.delay(instance.id, instance.status)

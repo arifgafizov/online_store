@@ -1,3 +1,5 @@
+import os
+
 from celery import shared_task
 
 from django.core.mail import send_mail
@@ -6,8 +8,9 @@ from django.conf import settings
 
 from orders.models import Order
 
-PATH_TO_TEMPLATE_NEW = '/home/arif/PycharmProjects/online_store/online_store/template/email_new.html'
-PATH_TO_TEMPLATE_CHANGE = '/home/arif/PycharmProjects/online_store/online_store/template/email_change.html'
+
+PATH_TO_TEMPLATE_NEW = os.path.join(settings.BASE_DIR, 'template', 'email_new.html')
+PATH_TO_TEMPLATE_CHANGE = os.path.join(settings.BASE_DIR, 'template', 'email_change.html')
 
 @shared_task
 def send_mail_create_order(order_id):
