@@ -1,0 +1,57 @@
+  <!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Web store</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+{% verbatim %}
+<main id="appProduct" class="container">
+
+    <!--    <template v-else>-->
+
+    <div class="row">
+        <div v-if="isActive" class="row">
+            <br>
+            <h4 class="display-6">Detail product</h4>
+            <br>
+            <div class="col-12 col-md-8 col-lg-9">
+                <h5 class="h5 pb-5">{{ product_detail.title }}</h5>
+                <p class="mb-2">{{ product_detail.description }}</p>
+                <p class="mb-2">{{ product_detail.price }} руб.</p>
+                <p class="mb-2">{{ product_detail.weight }} г</p>
+            </div>
+        </div>
+
+        <div v-else>
+            <a href="/"><button class="btn btn-outline-success btn-lg" type="submit">Enter to cart </button></a>
+            <br>
+            <h4 class="display-6">This is products list</h4>
+            <br>
+            <ul class="list-unstyled">
+                <ol>
+                    <li v-for="product in products">
+                        <a :href="'/api/v1/products/' + product.id" @click.prevent="onProduct(product.id)">
+                            <h5 class="h5 pb-5">{{ product.title }}</h5>
+                            <button class="btn btn-outline-primary btn-lt" type="submit">Add to cart </button>
+                        </a>
+<!--                        <h5 @click.prevent="onProduct(product.id)" class="h5 pb-5">{{ product.title }}</h5>-->
+                    </li>
+                </ol>
+            </ul>
+        </div>
+    </div>
+
+
+    <!--    </template>-->
+</main>
+{% endverbatim %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script type="text/javascript" src="{% static 'products.js' %}?revision1"></script>
+</body>
+</html>
