@@ -60,16 +60,19 @@
 
         <div v-if="isActive">
             <br>
-            <h4 class="display-6">Products list in cart</h4>
+            <h4 class="display-6">Товары в корзине</h4>
             <br>
             <ul class="list-unstyled">
                 <ol>
                     <li v-for="cart_product in cart_products">
 <!--                        <a :href="'/api/v1/products/' + product.id" @click.prevent="onProduct(product.id)"><h5 class="h5 pb-5">{{ product.title }}</h5></a>-->
-                        <h5 class="h5 pb-5">{{ cart_product }}</h5>
+                        <h5 class="h5 pb-5">
+                            {{ cart_product.title }}, количество: {{ cart_product.quantity }}, цена: {{ cart_product.price }} руб.
+                        </h5>
                     </li>
                 </ol>
             </ul>
+            <h5 class="h5 pb-5">Общая стоимость товаров в корзине: {{ cart_total_price.total_price }} руб.</h5>
         </div>
     </div>
 

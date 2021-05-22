@@ -3,6 +3,7 @@ var app = new Vue({
     data: {
       cart_products: [],
       product_detail: [],
+      cart_total_price: '',
       username: '',
       password: '',
       isAuthenticated: true,
@@ -71,6 +72,18 @@ var app = new Vue({
 //          добавление в cart_products списка товаров корзины полученного из response data
             this.cart_products = response.data
             console.log(this.cart_products)
+          }),
+
+          axios.get('/api/v1/cart-products/cart-total-price/', {
+                headers: {
+                    Authorization: "Token " + token
+                }
+            }).then(response => {
+
+            console.log(response)
+//          добавление в cart_products списка товаров корзины полученного из response data
+            this.cart_total_price = response.data
+            console.log(this.cart_total_price)
           })
      }
 })
