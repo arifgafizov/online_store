@@ -22,3 +22,6 @@ class ProductViewSet(ModelViewSet):
 
 class IndexView(TemplateView):
     template_name = 'index.html'
+
+class ProductsView(TemplateView):
+    template_name = 'products.html'

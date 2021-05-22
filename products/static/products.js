@@ -2,6 +2,7 @@ var app = new Vue({
     el: '#appProduct',
     data: {
       products: [],
+      product: '',
       product_detail: [],
       isActive: false
     },
@@ -14,10 +15,35 @@ var app = new Vue({
             this.product_detail = response.data
             console.log(this.product_detail)
           })
+      },
+      addToCart: function (product_id) {
+//          сохранение в переменной токена авторизации полученного из localStorage
+            const token = localStorage.getItem('AUTH_TOKEN')
+//          отправка пост запроса с данными username и password из формы
+          axios.post('/api/v1/cart-products/', {
+                headers: {
+                    Authorization: "Token " + token
+                },
+                'product': product_id
+            }).then((response) => {
+
+            console.log(response)
+
+          }).catch(function(error) {
+                console.log(error)
+                alert(error)
+            })
       }
     },
-     mounted() {
-          axios.get('/api/v1/products/').then(response => {
+    mounted() {
+//        сохранение в переменной токена авторизации полученного из localStorage
+          const token = localStorage.getItem('AUTH_TOKEN')
+
+          axios.get('/api/v1/products/', {
+            headers: {
+                Authorization: "Token " + token
+            }
+            }).then(response => {
             console.log(response)
 //          добавление в products списка товаров полученного из response data results
             this.products = response.data.results
