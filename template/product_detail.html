@@ -17,10 +17,8 @@
 
 <!--  TODO флагом обработка ошибки 404 с отдельным тегом для других ошибок алерт  -->
 
-    <!--    <template v-else>-->
-
     <div class="row">
-        <div class="row">
+        <div v-if="isActive" class="row">
             <br>
             <h4 class="display-6">Detail product</h4>
             <br>
@@ -32,12 +30,10 @@
             </div>
         </div>
         <div v-else>
-            <p>404</p>
+            <h5>Страница не найдена. Ошибка 404</h5>
         </div>
     </div>
 
-
-    <!--    </template>-->
 </main>
 {% endverbatim %}
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

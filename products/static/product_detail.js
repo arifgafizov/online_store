@@ -46,8 +46,9 @@ var app = new Vue({
           if (err.response?.status === 404) {
             this.isActive = false
           } else {
+            alert(err.response.status +" "+ err.response.statusText)
         }
       })
      },
-     }
+
 })
