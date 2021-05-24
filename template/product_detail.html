@@ -1,0 +1,41 @@
+  <!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Web store</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+{% verbatim %}
+<main id="appProductDetail" class="container">
+
+<!--  TODO флагом обработка ошибки 404 с отдельным тегом для других ошибок алерт  -->
+
+    <!--    <template v-else>-->
+
+    <div class="row">
+        <div class="row">
+            <br>
+            <h4 class="display-6">Detail product</h4>
+            <br>
+            <div class="col-12 col-md-8 col-lg-9">
+                <h5 class="h5 pb-5">{{ title }}</h5>
+                <p class="mb-2">{{ description }}</p>
+                <p class="mb-2">{{ price }} руб.</p>
+                <p class="mb-2">{{ weight }} г</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!--    </template>-->
+</main>
+{% endverbatim %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script type="text/javascript" src="{% static 'product_detail.js' %}?revision1"></script>
+</body>
+</html>
