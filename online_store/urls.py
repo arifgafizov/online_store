@@ -22,7 +22,7 @@ from drf_yasg.views import get_schema_view
 from django.conf import settings
 
 from orders.urls import views_urlpatterns
-from products.views import IndexView, ProductsView
+from products.views import IndexView, ProductsView, ProductDetailView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -48,6 +48,7 @@ urlpatterns = [
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0)),
     path('payments/', include(views_urlpatterns)),
     path('', IndexView.as_view(), name='index'),
-    path('products/', ProductsView.as_view(), name='products')
+    path('products/', ProductsView.as_view(), name='products'),
+    path('products/<int:id>', ProductDetailView.as_view(), name='products')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

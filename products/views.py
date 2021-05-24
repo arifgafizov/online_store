@@ -25,3 +25,6 @@ class IndexView(TemplateView):
 
 class ProductsView(TemplateView):
     template_name = 'products.html'
+
+class ProductDetailView(TemplateView):
+    template_name = 'product_detail.html'
