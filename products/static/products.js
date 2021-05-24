@@ -39,9 +39,29 @@ var app = new Vue({
             })
       }
     },
+     created() {
+//    сохранение в переменной токена авторизации полученного из localStorage
+     const token = localStorage.getItem('AUTH_TOKEN')
+//     отправка гет запроса в заголовке которого токен авторизации
+     axios.get('/api/v1/users/auth/current/', {
+        headers: {
+          Authorization: "Token " + token
+          }
+     })
+       .then(({data}) => {
+          console.debug(data)
+          this.isAuth = true
+          this.checkAuthLoading = false
+       }).catch((err) => {
+          if (err.response?.status === 401) {
+          } else {
+        }
+      })
+     },
+
     mounted() {
-          axios.get('/api/v1/products/')
-            .then(response => {
+          axios.get('/api/v1/products/', {
+            }).then(response => {
             console.log(response)
 //          добавление в products списка товаров полученного из response data results
             this.products = response.data.results

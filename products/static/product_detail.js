@@ -5,7 +5,7 @@ var app = new Vue({
       description: '',
       price: '',
       weight: '',
-      isActive: false
+      isActive: true
     },
     methods: {
       addToCart: function (product_id) {
@@ -42,6 +42,12 @@ var app = new Vue({
 //                } else {
 //                    this.weight = 'вес не определен'
 //                }
-          })
+          }).catch((err) => {
+          if (err.response?.status === 404) {
+            this.isActive = false
+          } else {
+        }
+      })
+     },
      }
 })

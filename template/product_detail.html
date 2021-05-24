@@ -9,6 +9,9 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
+    <div class="navbar mt-5">
+      <p><a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-outline-success btn-lg">Назад</a></p>
+    </div>
 {% verbatim %}
 <main id="appProductDetail" class="container">
 
@@ -27,6 +30,9 @@
                 <p class="mb-2">{{ price }} руб.</p>
                 <p class="mb-2">{{ weight }} г</p>
             </div>
+        </div>
+        <div v-else>
+            <p>404</p>
         </div>
     </div>
 
