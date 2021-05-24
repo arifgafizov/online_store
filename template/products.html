@@ -28,7 +28,9 @@
         </div>
 
         <div v-else>
-            <a href="/"><button class="btn btn-outline-success btn-lg" type="submit">Enter to cart </button></a>
+            <div v-if="isAuth">
+                <a href="/" class="btn btn-outline-success btn-lg">Enter to cart</a>
+            </div>
             <br>
             <h4 class="display-6">This is products list</h4>
             <br>
