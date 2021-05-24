@@ -2,7 +2,7 @@ var app = new Vue({
     el: '#app',
     data: {
       cart_products: [],
-      product_detail: [],
+      orders: [],
       cart_total_price: '',
       username: '',
       password: '',
@@ -62,6 +62,7 @@ var app = new Vue({
           //    сохранение в переменной токена авторизации полученного из localStorage
           const token = localStorage.getItem('AUTH_TOKEN')
           //     отправка гет запроса в заголовке которого токен авторизации
+//          получение товаров в корзине
           axios.get('/api/v1/cart-products/', {
                 headers: {
                     Authorization: "Token " + token
@@ -74,6 +75,7 @@ var app = new Vue({
             console.log(this.cart_products)
           }),
 
+//          получение общей цены товаров в корзине
           axios.get('/api/v1/cart-products/cart-total-price/', {
                 headers: {
                     Authorization: "Token " + token
@@ -84,6 +86,19 @@ var app = new Vue({
 //          добавление в cart_products списка товаров корзины полученного из response data
             this.cart_total_price = response.data
             console.log(this.cart_total_price)
+          }),
+
+//          получение заказа
+          axios.get('/api/v1/orders/', {
+                headers: {
+                    Authorization: "Token " + token
+                }
+            }).then(response => {
+
+            console.log(response)
+//          добавление в orders списка товаров корзины полученного из response data
+            this.orders = response.data
+            console.log(this.orders)
           })
      }
 })

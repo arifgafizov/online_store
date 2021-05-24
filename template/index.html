@@ -9,9 +9,11 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-<!--TODO создадим отдельную страницу для получения списка товара и детализации + кнопка добавления товара в корзину + конпка перехода в cart-products-->
-<!--TODO создадим отдельную страницу для просмотра корзины cart-products-->
-<!--TODO * сделать переключение детали на отдельной странице с кнопкой назад-->
+
+<!--TODO сделать переключение детали на отдельной странице с кнопкой назад-->
+<!--TODO кнопку сформировать заказ, сделать список заказов + кнопка оплаты (переход на форму оплаты) -->
+<!--TODO убрать хардкод из формы оплаты-->
+<!--TODO * детально заказ отдельной страницей + кнопка оплаты -->
 {% verbatim %}
 <main id="app" class="container">
     <div v-if="!isAuthenticated" class="row">
@@ -46,18 +48,6 @@
     <!--    <template v-else>-->
 
     <div class="row" v-else>
-<!--        <div v-if="isActive" class="row">-->
-<!--            <br>-->
-<!--            <h4 class="display-6">Detail product</h4>-->
-<!--            <br>-->
-<!--            <div class="col-12 col-md-8 col-lg-9">-->
-<!--                <h5 class="h5 pb-5">{{ product_detail.title }}</h5>-->
-<!--                <p class="mb-2">{{ product_detail.description }}</p>-->
-<!--                <p class="mb-2">{{ product_detail.price }} руб.</p>-->
-<!--                <p class="mb-2">{{ product_detail.weight }} г</p>-->
-<!--            </div>-->
-<!--        </div>-->
-
         <div v-if="isActive">
             <br>
             <h4 class="display-6">Товары в корзине</h4>
@@ -65,14 +55,28 @@
             <ul class="list-unstyled">
                 <ol>
                     <li v-for="cart_product in cart_products">
-<!--                        <a :href="'/api/v1/products/' + product.id" @click.prevent="onProduct(product.id)"><h5 class="h5 pb-5">{{ product.title }}</h5></a>-->
                         <h5 class="h5 pb-5">
                             {{ cart_product.title }}, количество: {{ cart_product.quantity }}, цена: {{ cart_product.price }} руб.
                         </h5>
                     </li>
                 </ol>
             </ul>
-            <h5 class="h5 pb-5">Общая стоимость товаров в корзине: {{ cart_total_price.total_price }} руб.</h5>
+            <h5 class="h5 pb-5">Общая стоимость товаров в корзине: {{ cart_total_price.total_price }} руб.
+                <button  class="btn btn-outline-primary btn-lt" type="submit">
+                   Сформировать заказ
+                </button>
+            </h5>
+            <div>
+            <ul class="list-unstyled">
+                <ol>
+                    <li v-for="order in orders">
+                        <h5 class="h5 pb-5">
+                            Заказ №{{ order.id }}, статус заказа: {{ order.status }}, стоимость заказа: {{ order.total_price }} руб.
+                        </h5>
+                    </li>
+                </ol>
+            </ul>
+            </div>
         </div>
     </div>
 
