@@ -45,10 +45,9 @@
         </div>
     </div>
 
-    <!--    <template v-else>-->
 
     <div class="row" v-else>
-        <div v-if="isActive">
+        <div>
             <div v-if="isOrderActive">
                 <form>
                     <div class="mb-3">
@@ -56,47 +55,49 @@
                         <input v-model.trim="phone" type="text" class="form-control" id="phone">
                     </div>
                     <div class="mb-3">
-                        <label for="adress" class="form-label">Адрес доставки</label>
-                        <input v-model.trim="adress" type="text" class="form-control" id="adress">
+                        <label for="address" class="form-label">Адрес доставки</label>
+                        <input v-model.trim="address" type="text" class="form-control" id="address">
                     </div>
                     <div class="mb-3">
                         <label for="deliveryAt" class="form-label">Дата доставки</label>
-                        <input v-model.trim="deliveryAt"  type="text" class="form-control" id="deliveryAt">
+                        <input v-model.trim="deliveryAt" type="text" class="form-control" id="deliveryAt">
                         <div id="dateHelp" class="form-text">Укажите дату и время для получения заказа.</div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Отправить</button>
+                    <button @click.prevent="onMakeOrder" type="submit" class="btn btn-primary">Отправить</button>
                 </form>
             </div>
-            <br>
-            <h4 class="display-6">Товары в корзине</h4>
-            <br>
-            <ul class="list-unstyled">
-                <ol>
-                    <li v-for="cart_product in cart_products">
-                        <h5 class="h5 pb-5">
-                            {{ cart_product.title }}, количество: {{ cart_product.quantity }}, цена: {{
-                            cart_product.price }} руб.
-                        </h5>
-                    </li>
-                </ol>
-            </ul>
-            <h5 class="h5 pb-5">Общая стоимость товаров в корзине: {{ cart_total_price.total_price }} руб.
-                <button @click.prevent="onStartMakeOrder" class="btn btn-outline-primary btn-lt" type="submit">
-                    Сформировать заказ
-                </button>
-            </h5>
-            <div>
+            <template v-else>
+                <br>
+                <h4 class="display-6">Товары в корзине</h4>
+                <br>
                 <ul class="list-unstyled">
                     <ol>
-                        <li v-for="order in orders">
+                        <li v-for="cart_product in cart_products">
                             <h5 class="h5 pb-5">
-                                Заказ №{{ order.id }}, статус заказа: {{ order.status }}, стоимость заказа: {{
-                                order.total_price }} руб.
+                                {{ cart_product.title }}, количество: {{ cart_product.quantity }}, цена: {{
+                                cart_product.price }} руб.
                             </h5>
                         </li>
                     </ol>
                 </ul>
-            </div>
+                <h5 class="h5 pb-5">Общая стоимость товаров в корзине: {{ cart_total_price.total_price }} руб.
+                    <button @click.prevent="onStartMakeOrder" class="btn btn-outline-primary btn-lt" type="submit">
+                        Сформировать заказ
+                    </button>
+                </h5>
+                <div>
+                    <ul class="list-unstyled">
+                        <ol>
+                            <li v-for="order in orders">
+                                <h5 class="h5 pb-5">
+                                    Заказ №{{ order.id }}, статус заказа: {{ order.status }}, стоимость заказа: {{
+                                    order.total_price }} руб.
+                                </h5>
+                            </li>
+                        </ol>
+                    </ul>
+                </div>
+            </template>
         </div>
     </div>
 

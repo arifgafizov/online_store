@@ -10,7 +10,7 @@ var app = new Vue({
       isActive: false,
       isOrderActive: false,
       phone: '',
-      adress: '',
+      address: '',
       deliveryAt: ''
     },
     methods: {
@@ -32,15 +32,15 @@ var app = new Vue({
             })
         },
 
-      onProduct: function (product_id){
-        this.isActive = true
-        axios.get('/api/v1/products/' + product_id).then(response => {
-            console.log(response)
-//          добавление в product_detail детализации товара полученного из response data
-            this.product_detail = response.data
-            console.log(this.product_detail)
-          })
-      },
+//      onProduct: function (product_id){
+//        this.isActive = true
+//        axios.get('/api/v1/products/' + product_id).then(response => {
+//            console.log(response)
+////          добавление в product_detail детализации товара полученного из response data
+//            this.product_detail = response.data
+//            console.log(this.product_detail)
+//          })
+//      },
 
       onStartMakeOrder: function (){
         this.isOrderActive = true
@@ -52,7 +52,7 @@ var app = new Vue({
 //          отправка пост запроса с данными username и password из формы
           axios.post('/api/v1/orders/', {
                 'phone': this.phone,
-                'adress': this.adress,
+                'address': this.address,
                 'delivery_at': this.deliveryAt
             },
                 {
@@ -62,6 +62,7 @@ var app = new Vue({
                 }
             ).then((response) => {
             this.isOrderActive = false
+            console.log('ORDER')
             console.log(response)
 
           }).catch(function(error) {
@@ -91,7 +92,7 @@ var app = new Vue({
       })
      },
      mounted() {
-          this.isActive = true
+
           //    сохранение в переменной токена авторизации полученного из localStorage
           const token = localStorage.getItem('AUTH_TOKEN')
           //     отправка гет запроса в заголовке которого токен авторизации
