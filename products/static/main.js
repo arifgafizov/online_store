@@ -7,7 +7,11 @@ var app = new Vue({
       username: '',
       password: '',
       isAuthenticated: true,
-      isActive: false
+      isActive: false,
+      isOrderActive: false,
+      phone: '',
+      adress: '',
+      deliveryAt: ''
     },
     methods: {
         onSubmit: function () {
@@ -27,6 +31,7 @@ var app = new Vue({
                 alert(error)
             })
         },
+
       onProduct: function (product_id){
         this.isActive = true
         axios.get('/api/v1/products/' + product_id).then(response => {
@@ -35,6 +40,34 @@ var app = new Vue({
             this.product_detail = response.data
             console.log(this.product_detail)
           })
+      },
+
+      onStartMakeOrder: function (){
+        this.isOrderActive = true
+      },
+
+      onMakeOrder: function (product_id) {
+//          сохранение в переменной токена авторизации полученного из localStorage
+            const token = localStorage.getItem('AUTH_TOKEN')
+//          отправка пост запроса с данными username и password из формы
+          axios.post('/api/v1/orders/', {
+                'phone': this.phone,
+                'adress': this.adress,
+                'delivery_at': this.deliveryAt
+            },
+                {
+                    headers: {
+                        Authorization: "Token " + token
+                    },
+                }
+            ).then((response) => {
+            this.isOrderActive = false
+            console.log(response)
+
+          }).catch(function(error) {
+                console.log(error)
+                alert(error)
+            })
       }
     },
     created() {
