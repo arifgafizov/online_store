@@ -22,6 +22,7 @@ from drf_yasg.views import get_schema_view
 from django.conf import settings
 
 from orders.urls import views_urlpatterns
+from orders.views import OrderDetailView
 from products.views import IndexView, ProductsView, ProductDetailView
 
 schema_view = get_schema_view(
@@ -49,6 +50,7 @@ urlpatterns = [
     path('payments/', include(views_urlpatterns)),
     path('', IndexView.as_view(), name='index'),
     path('products/', ProductsView.as_view(), name='products'),
-    path('products/<int:id>', ProductDetailView.as_view(), name='products')
+    path('products/<int:id>', ProductDetailView.as_view(), name='product'),
+    path('orders/<int:id>', OrderDetailView.as_view(), name='order')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
