@@ -13,11 +13,14 @@ var app = new Vue({
             const token = localStorage.getItem('AUTH_TOKEN')
 //          отправка пост запроса с данными username и password из формы
           axios.post('/api/v1/cart-products/', {
-                headers: {
-                    Authorization: "Token " + token
-                },
                 'product': product_id
-            }).then((response) => {
+            },
+                {
+                    headers: {
+                        Authorization: "Token " + token
+                    },
+                }
+            ).then((response) => {
 
             console.log(response)
 
