@@ -18,6 +18,12 @@
       const startPaymentButton = document.querySelector('#start-payment-button');
       var button = document.querySelector('#submit-button');
 
+      //    сохранение в переменной токена авторизации полученного из localStorage
+      const authToken = localStorage.getItem('AUTH_TOKEN');
+
+      //    сохранение в переменной id заказа полученного из localStorage
+      const orderId = localStorage.getItem('ORDER_ID');
+
       // подключение обработчика нажатия к переменной startPaymentButton
       startPaymentButton.addEventListener('click', function () {
 
@@ -26,9 +32,9 @@
       // и присвоением переменной token токена из data принимаемого объекта response
       // далее создание braintree.dropin с  console.log
       axios
-        .post('/api/v1/orders/59/pay-client-token/', {}, {
+        .post('/api/v1/orders/' + orderId + '/pay-client-token/', {}, {
         headers: {
-          Authorization: "Token 796aff865a47f2b479707b6b40c7299061055b6e"
+          Authorization: "Token " + authToken
           }
         })
         .then(response => {
@@ -49,11 +55,11 @@
 
             // пост запрос на pay-chekout с телом запроса в кот. поле nonce с переменной nonce и заголовком авторизации
             axios
-              .post('/api/v1/orders/59/pay-chekout/', {
+              .post('/api/v1/orders/' + orderId + '/pay-chekout/', {
               nonce: nonce
               }, {
               headers: {
-              Authorization: "Token 796aff865a47f2b479707b6b40c7299061055b6e"
+              Authorization: "Token " + authToken
                 }
               })
               .then(response =>{
