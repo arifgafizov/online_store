@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Web store</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div class="navbar mt-5">
+    <p><a href="{{request.META.HTTP_REFERER|escape}}" class="btn btn-outline-success btn-lg">Назад</a></p>
+</div>
+{% verbatim %}
+<main id="appOrderDetail" class="container">
+
+    <div class="row">
+        <div v-if="isActive" class="row">
+            <br>
+            <h4 class="display-6">Информация о заказе № {{ id }}</h4>
+            <br>
+            <div class="col-12 col-md-8 col-lg-9">
+                <br>
+                <br>
+                <h5 class="h5 pb-5">Статус: {{ status }}</h5>
+                <p class="mb-2">Стоимость: {{ total_price }} руб.</p>
+                <p class="mb-2">Дата и время доставки: {{ delivery_at }}</p>
+                <p class="mb-2">Адрес доставки: {{ address }} </p>
+                <p class="mb-2">Контактный телефон: {{ phone }} </p>
+                <p class="mb-2">Содержимое заказа: {{ products }} </p>
+            </div>
+            <br>
+            <div v-if="status === 'created'">
+                <button @click.prevent="payOrder(id)" class="btn btn-outline-success btn-lg">
+                    Оплатить
+                </button>
+            </div>
+        </div>
+        <div v-else>
+            <h5>Страница не найдена. Ошибка 404</h5>
+        </div>
+    </div>
+
+</main>
+{% endverbatim %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script type="text/javascript" src="{% static 'order_detail.js' %}?revision1"></script>
+</body>
+</html>
