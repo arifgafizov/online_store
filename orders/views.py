@@ -119,3 +119,6 @@ class OrderViewSet(mixins.CreateModelMixin,
 
 class TestPaymentView(TemplateView):
     template_name = 'form.html'
+
+class OrderDetailView(TemplateView):
+    template_name = 'order_detail.html'
