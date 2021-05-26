@@ -34,16 +34,16 @@
             <br>
             <h4 class="display-6">This is products list</h4>
             <br>
-            <ul class="list-unstyled">
+            <ul class="list-unstyled" >
                 <ol>
-                    <li v-for="product in products">
-<!--                        <a :href="'/api/v1/products/' + product.id" @click.prevent="onProduct(product.id)">-->
-                        <a :href="'/products/' + product.id">
-                            <h5 class="h5 pb-5">{{ product.title }}</h5>
+                    <li v-for="product in products" >
+                        <a :href="'/products/' + product.id" >
+                            <h5 class="h5 pb-5" >{{ product.title }} </h5>
                         </a>
-                            <button @click.prevent="addToCart(product.id)" class="btn btn-outline-primary btn-lt" type="submit">
-                                Add to cart
-                            </button>
+                        <button @click.prevent="addToCart(product.id)" class="btn btn-outline-primary btn-lt"
+                                type="submit">
+                            Add to cart
+                        </button>
                     </li>
                 </ol>
             </ul>
@@ -51,7 +51,8 @@
     </div>
 
 
-    <!--    </template>-->
+    <!--    </template> style="float: right;
+                                            margin-hight: 70%"-->
 </main>
 {% endverbatim %}
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
