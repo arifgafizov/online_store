@@ -62,13 +62,19 @@ var app = new Vue({
                 }
             ).then((response) => {
             this.isOrderActive = false
-            console.log('ORDER')
             console.log(response)
 
           }).catch(function(error) {
                 console.log(error)
                 alert(error)
             })
+      },
+
+      payOrder: function (order_id)  {
+        //  добавление id заказа в localStorage с ключом ORDER_ID
+        localStorage.setItem('ORDER_ID', order_id)
+        //  открытие ссылки
+        window.open('/payments/pay-forms/')
       }
     },
     created() {

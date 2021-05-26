@@ -92,6 +92,11 @@
                                 <h5 class="h5 pb-5">
                                     Заказ №{{ order.id }}, статус заказа: {{ order.status }}, стоимость заказа: {{
                                     order.total_price }} руб.
+                                    <div>
+                                        <a @click.prevent="payOrder(order.id)" class="btn btn-outline-success btn-lg">
+                                                Оплатить
+                                        </a>
+                                    </div>
                                 </h5>
                             </li>
                         </ol>
