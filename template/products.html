@@ -37,13 +37,15 @@
             <ul class="list-unstyled" >
                 <ol>
                     <li v-for="product in products" >
-                        <a :href="'/products/' + product.id" >
-                            <h5 class="h5 pb-5" >{{ product.title }} </h5>
-                        </a>
-                        <button @click.prevent="addToCart(product.id)" class="btn btn-outline-primary btn-lt"
-                                type="submit">
-                            Add to cart
-                        </button>
+                        <h5 class="h5 pb-5" >
+                            <a :href="'/products/' + product.id" >
+                                {{ product.title }}
+                            </a>
+                            <button @click.prevent="addToCart(product.id)" class="btn btn-outline-primary btn-lt"
+                                    type="submit">
+                                Add to cart
+                            </button>
+                        </h5>
                     </li>
                 </ol>
             </ul>
