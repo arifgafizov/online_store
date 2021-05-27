@@ -32,21 +32,33 @@ var app = new Vue({
             })
         },
 
-//      onProduct: function (product_id){
-//        this.isActive = true
-//        axios.get('/api/v1/products/' + product_id).then(response => {
-//            console.log(response)
-////          добавление в product_detail детализации товара полученного из response data
-//            this.product_detail = response.data
-//            console.log(this.product_detail)
-//          })
-//      },
+      onDeleteCartProduct (product_id) {
+//          сохранение в переменной токена авторизации полученного из localStorage
+        const token = localStorage.getItem('AUTH_TOKEN')
+//        проходимся по cart_products используя find с функцией сравнения полученного product_id с id товара в корзине
+//        сохраняя найденный товар в переменной product
+        const product = this.cart_products.find(function (product) {
+            return product.id === product_id
+        })
+//        сохраняем в переменной productPosition id позиции в корзине
+        const productPosition = product.positions.pop().id
+//        отправляем delete запрос с id позиции в корзине
+        axios.delete('/api/v1/cart-products/' + productPosition, {
+                headers: {
+                    Authorization: "Token " + token
+                }
+            }).then(response => {
+                console.log(response)
+            }).catch(function(error) {
+                console.log(error)
+            })
+      },
 
       onStartMakeOrder: function (){
         this.isOrderActive = true
       },
 
-      onMakeOrder: function (product_id) {
+      onMakeOrder: function () {
 //          сохранение в переменной токена авторизации полученного из localStorage
             const token = localStorage.getItem('AUTH_TOKEN')
 //          отправка пост запроса с данными username и password из формы
@@ -71,10 +83,8 @@ var app = new Vue({
       },
 
       payOrder: function (order_id)  {
-        //  добавление id заказа в localStorage с ключом ORDER_ID
-        localStorage.setItem('ORDER_ID', order_id)
-        //  открытие ссылки
-        window.open('/payments/pay-forms/')
+        //  открытие ссылки с передачей order_id в url params
+        location.replace('/payments/pay-forms/?order-id=' + order_id)
       }
     },
     created() {
