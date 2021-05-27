@@ -1,6 +1,7 @@
 var app = new Vue({
     el: '#appProductDetail',
     data: {
+      id: '',
       title: '',
       description: '',
       price: '',
@@ -31,8 +32,8 @@ var app = new Vue({
       }
     },
     created() {
-          const id = location.pathname.split('/').pop()
-          axios.get('/api/v1/products/' + id
+          this.id = location.pathname.split('/').pop()
+          axios.get('/api/v1/products/' + this.id
             ).then(response => {
             console.log(response)
 //          добавление в products списка товаров полученного из response data results
