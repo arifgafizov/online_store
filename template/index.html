@@ -49,7 +49,7 @@
     <div class="row" v-else>
         <div>
             <div v-if="isOrderActive">
-                <form>
+                <div>
                     <div class="mb-3">
                         <label for="phone" class="form-label">Телефон</label>
                         <input v-model.trim="phone" type="text" class="form-control" id="phone">
@@ -63,8 +63,8 @@
                         <input v-model.trim="deliveryAt" type="text" class="form-control" id="deliveryAt">
                         <div id="dateHelp" class="form-text">Укажите дату и время для получения заказа.</div>
                     </div>
-                    <button @click.prevent="onMakeOrder" type="submit" class="btn btn-primary">Отправить</button>
-                </form>
+                    <button @click="onMakeOrder" class="btn btn-primary">Отправить</button>
+                </div>
             </div>
             <template v-else>
                 <br>
@@ -76,6 +76,9 @@
                             <h5 class="h5 pb-5">
                                 {{ cart_product.title }}, количество: {{ cart_product.quantity }}, цена: {{
                                 cart_product.price }} руб.
+                                <button class="btn btn-outline-danger btn-lg" @click.prevent="onDeleteCartProduct(cart_product.id)">
+                                    Удалить
+                                </button>
                             </h5>
                         </li>
                     </ol>
@@ -90,13 +93,13 @@
                         <ol>
                             <li v-for="order in orders">
                                 <h5 class="h5 pb-5">
-                                    <a :href="'/orders/' + order.id" >
+                                    <a :href="'/orders/' + order.id">
                                         Заказ №{{ order.id }}, статус заказа: {{ order.status }}, стоимость заказа: {{
                                         order.total_price }} руб.
                                     </a>
                                     <button v-if="order.status === 'created'" @click.prevent="payOrder(order.id)"
                                             class="btn btn-outline-secondary btn-lg">
-                                          Оплатить
+                                        Оплатить
                                     </button>
                                 </h5>
                             </li>
