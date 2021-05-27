@@ -24,17 +24,21 @@
                 <br>
                 <br>
                 <h5 class="h5 pb-5">Статус: {{ status }}</h5>
-                <p class="mb-2">Стоимость: {{ total_price }} руб.</p>
+                <p class="mb-2">Общая стоимость: {{ total_price }} руб.</p>
                 <p class="mb-2">Дата и время доставки: {{ delivery_at }}</p>
                 <p class="mb-2">Адрес доставки: {{ address }} </p>
                 <p class="mb-2">Контактный телефон: {{ phone }} </p>
-                <p class="mb-2">Содержимое заказа: {{ products }} </p>
-            </div>
-            <br>
-            <div v-if="status === 'created'">
-                <button @click.prevent="payOrder(id)" class="btn btn-outline-success btn-lg">
-                    Оплатить
-                </button>
+                <li class="mb-2" v-for="product in products">
+                    Содержимое заказа: <br>
+                    Наименование: {{ product.title }}, количество: {{ product.quantity }}, цена: {{ product.price }}
+                </li>
+                <br><br>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button v-if="status === 'created'" @click.prevent="payOrder(id)"
+                            class="btn btn-outline-secondary btn-lg">
+                        Оплатить
+                    </button>
+                </div>
             </div>
         </div>
         <div v-else>

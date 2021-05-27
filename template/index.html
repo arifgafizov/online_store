@@ -94,11 +94,10 @@
                                         Заказ №{{ order.id }}, статус заказа: {{ order.status }}, стоимость заказа: {{
                                         order.total_price }} руб.
                                     </a>
-                                    <div v-if="order.status === 'created'">
-                                        <button @click.prevent="payOrder(order.id)" class="btn btn-outline-success btn-lg">
-                                                Оплатить
-                                        </button>
-                                    </div>
+                                    <button v-if="order.status === 'created'" @click.prevent="payOrder(order.id)"
+                                            class="btn btn-outline-secondary btn-lg">
+                                          Оплатить
+                                    </button>
                                 </h5>
                             </li>
                         </ol>
