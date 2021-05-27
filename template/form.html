@@ -21,8 +21,8 @@
       //    сохранение в переменной токена авторизации полученного из localStorage
       const authToken = localStorage.getItem('AUTH_TOKEN');
 
-      //    сохранение в переменной id заказа полученного из localStorage
-      const orderId = localStorage.getItem('ORDER_ID');
+      //    сохранение в переменной id заказа полученного из url params
+      const orderId = new URLSearchParams(location.search).get('order-id');
 
       // подключение обработчика нажатия к переменной startPaymentButton
       startPaymentButton.addEventListener('click', function () {
