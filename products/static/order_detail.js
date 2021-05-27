@@ -12,10 +12,8 @@ var app = new Vue({
     },
     methods: {
       payOrder: function (order_id)  {
-        //  добавление id заказа в localStorage с ключом ORDER_ID
-        localStorage.setItem('ORDER_ID', order_id)
-        //  открытие ссылки
-        window.open('/payments/pay-forms/')
+        //  открытие ссылки с передачей order_id в url params
+        location.replace('/payments/pay-forms/?order-id=' + order_id)
       }
     },
     created() {
