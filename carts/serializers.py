@@ -26,7 +26,16 @@ class CartProductSerializer(serializers.ModelSerializer):
 
 class ProductInCartSerializer(serializers.ModelSerializer):
     quantity = serializers.CharField()
-    positions = CartProductSerializer(source='cart_products', many=True)
+    # saving products using the method 'get_cart_products'
+    positions = serializers.SerializerMethodField('get_cart_products')
+
+    # getting products filtered by cart and product to the cart
+    def get_cart_products(self, product):
+        cart = self.context['request'].user.cart
+        cart_products_queryset = CartProduct.objects.filter(cart=cart, product=product)
+        serializer = CartProductSerializer(instance=cart_products_queryset, many=True, context=self.context)
+
+        return serializer.data
 
     class Meta:
         model = Product
