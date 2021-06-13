@@ -21,10 +21,14 @@ class RegisterUserView(CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
-    # handle a unique login
-    def create(self, request, *args, **kwargs):
+    def perform_create(self, serializer):
         try:
-            return super(CreateAPIView, self).create(request, *args, **kwargs)
+            new_user = serializer.save()
         except IntegrityError:
+            # handle a unique login
             content = {'error': 'IntegrityError, please enter other username'}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            raw_password = new_user.password
+            new_user.set_password(raw_password)
+            new_user.save()
