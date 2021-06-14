@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext, gettext_lazy as _
 
-from .models import User
+from .models import User, PreUser
 
 
 @admin.register(User)
@@ -36,3 +36,17 @@ class UserAdmin(UserAdmin):
                        ),
         }),
     )
+
+
+@admin.register(PreUser)
+class PreUserAdmin(admin.ModelAdmin):
+    list_display = ['username',
+                   'password',
+                   'email',
+                   'uuid_token',
+                   'first_name',
+                   'last_name',
+                   'middle_name',
+                   'phone_number',
+                   'address']
+    list_filter = ("username", "email")
