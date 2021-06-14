@@ -41,8 +41,6 @@ class RegisterPreUserView(CreateAPIView):
     serializer_class = PreUserSerializer
     permission_classes = [AllowAny]
 
-def perform_create(self, serializer):
-    new_user = serializer.save()
-    uuid_token = uuid.uuid4()
-    new_user.uuid_token = uuid_token
-    new_user.save()
+    def perform_create(self, serializer):
+        uuid_token = uuid.uuid4()
+        serializer.save(uuid_token=uuid_token)
