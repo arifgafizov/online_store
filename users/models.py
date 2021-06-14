@@ -24,7 +24,7 @@ class PreUser(models.Model):
             'unique': "A user with that username already exists."
         })
     password = models.CharField('пароль', max_length=128)
-    uuid_token = models.CharField('токен', max_length=150)
+    uuid_token = models.CharField('токен', max_length=150, blank=True)
     first_name = models.CharField('имя', max_length=150, blank=True)
     last_name = models.CharField('фамилия', max_length=150, blank=True)
     email = models.EmailField('ел. адрес', blank=True)
