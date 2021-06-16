@@ -42,6 +42,8 @@ class RegisterUserView(CreateAPIView):
                                   phone_number=pre_user[0]['phone_number'],
                                   address=pre_user[0]['address'],
                                 )
+            else:
+                return Response(data={'reason': "invalid password"}, status=status.HTTP_400_BAD_REQUEST)
 
         except IntegrityError:
             # handle a unique login
