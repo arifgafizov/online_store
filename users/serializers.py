@@ -5,7 +5,7 @@ from .models import User, PreUser
 
 
 class UserSerializer(ModelSerializer):
-    uuid_token = serializers.CharField()
+    uuid_token = serializers.CharField(max_length=128)
 
     class Meta:
         model = User
