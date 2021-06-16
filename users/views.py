@@ -1,5 +1,6 @@
 import uuid
 
+from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
@@ -25,24 +26,27 @@ class RegisterUserView(CreateAPIView):
 
     def perform_create(self, serializer):
         try:
-            new_user = serializer.save()
+            uuid_token = serializer.data['uuid_token']
+            raw_password = serializer.data['password']
+
+            pre_user = PreUser.objects.filter(uuid_token=uuid_token).values()
+
+            if raw_password == pre_user[0]['password']:
+                User.objects.create(
+                                  username=pre_user[0]['username'],
+                                  password=make_password(pre_user[0]['password']),
+                                  email=pre_user[0]['email'],
+                                  first_name=pre_user[0]['first_name'],
+                                  last_name=pre_user[0]['last_name'],
+                                  middle_name=pre_user[0]['middle_name'],
+                                  phone_number=pre_user[0]['phone_number'],
+                                  address=pre_user[0]['address'],
+                                )
+
         except IntegrityError:
             # handle a unique login
             content = {'error': 'IntegrityError, please enter other username'}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            pre_user = PreUser.objects.filter(uuid_token=new_user.uuid_token)
-            raw_password = new_user.password
-            new_user.set_password(raw_password)
-            new_user.save(
-                          username=pre_user.username,
-                          email=pre_user.email,
-                          first_name=pre_user.first_name,
-                          last_name=pre_user.last_name,
-                          middle_name=pre_user.middle_name,
-                          phone_number=pre_user.phone_number,
-                          address=pre_user.address,
-                        )
 
 
 class RegisterPreUserView(CreateAPIView):
