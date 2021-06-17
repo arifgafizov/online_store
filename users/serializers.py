@@ -32,3 +32,20 @@ class PreUserSerializer(ModelSerializer):
             'phone_number',
             'address',
         ]
+
+
+class CurrentUserSerializer(ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'username',
+            'password',
+            'email',
+            'first_name',
+            'last_name',
+            'middle_name',
+            'phone_number',
+            'address',
+        ]
