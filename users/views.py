@@ -1,5 +1,6 @@
 import uuid
 
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
 from rest_framework import status
@@ -8,12 +9,12 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from .models import User, PreUser
-from .serializers import UserSerializer, PreUserSerializer
+from .serializers import UserSerializer, PreUserSerializer, CurrentUserSerializer
 
 
 class CurrentUserRetrieveUpdateView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = CurrentUserSerializer
 
     def get_object(self):
         return self.request.user
@@ -32,7 +33,7 @@ class RegisterUserView(CreateAPIView):
             pre_user = PreUser.objects.filter(uuid_token=uuid_token).values()
 
             if raw_password == pre_user[0]['password']:
-                User.objects.create(
+                user = User.objects.create(
                                   username=pre_user[0]['username'],
                                   password=make_password(pre_user[0]['password']),
                                   email=pre_user[0]['email'],
@@ -42,6 +43,8 @@ class RegisterUserView(CreateAPIView):
                                   phone_number=pre_user[0]['phone_number'],
                                   address=pre_user[0]['address'],
                                 )
+                auth_user = authenticate(username=user.username, password=user.password)
+                login(self.request, auth_user.id)
             else:
                 return Response(data={'reason': "invalid password"}, status=status.HTTP_400_BAD_REQUEST)
 
