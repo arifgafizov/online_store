@@ -226,4 +226,4 @@ EMAIL_USE_SSL = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-TIMESTAMP = datetime.timedelta(1)
+TIMEDELTA = datetime.timedelta(days=1)
