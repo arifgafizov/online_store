@@ -16,7 +16,6 @@ class PreUserSerializer(ModelSerializer):
         fields = [
             'id',
             'username',
-            'password',
             'uuid_token',
             'email',
             'first_name',
