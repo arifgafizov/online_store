@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import datetime
 from pathlib import Path
 import sentry_sdk
 from dotenv import load_dotenv
@@ -224,3 +225,5 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+TIMESTAMP = datetime.timedelta(1)
