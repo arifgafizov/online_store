@@ -41,7 +41,7 @@ class UserAdmin(UserAdmin):
 @admin.register(PreUser)
 class PreUserAdmin(admin.ModelAdmin):
     list_display = ['username',
-                   'password',
+                   'created_at',
                    'email',
                    'uuid_token',
                    'first_name',
