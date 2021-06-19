@@ -1,19 +1,12 @@
 from rest_framework import serializers
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, Serializer
 
 from .models import User, PreUser
 
 
-class UserSerializer(ModelSerializer):
+class RegisterUserSerializer(Serializer):
     uuid_token = serializers.CharField(max_length=128)
-
-    class Meta:
-        model = User
-        fields = [
-            'id',
-            'password',
-            'uuid_token',
-        ]
+    password = serializers.CharField(max_length=128)
 
 
 class PreUserSerializer(ModelSerializer):
@@ -49,3 +42,8 @@ class CurrentUserSerializer(ModelSerializer):
             'phone_number',
             'address',
         ]
+
+
+class RegisteredCompleteUserSerializer(Serializer):
+    auth_token = serializers.CharField(max_length=128)
+    user = CurrentUserSerializer()
