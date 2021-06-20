@@ -18,9 +18,10 @@ def send_mail_signup(pre_user_id):
     """
     pre_user = PreUser.objects.get(pk=pre_user_id)
     client_uuid = pre_user.uuid_token
+    domen = settings.DOMEN
     client_email = pre_user.email
     subject = 'Completing sign up'
-    msg_html = render_to_string(PATH_TO_TEMPLATE_SIGNUP, {'client_uuid': client_uuid})
+    msg_html = render_to_string(PATH_TO_TEMPLATE_SIGNUP, {'client_uuid': client_uuid, 'domen': domen})
 
     mail_sent = send_mail(subject,
                           None,
