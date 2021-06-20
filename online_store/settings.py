@@ -227,3 +227,5 @@ EMAIL_USE_SSL = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 TIMEDELTA = datetime.timedelta(days=1)
+
+DOMEN = 'http://127.0.0.1:8080/complete-signup'
