@@ -41,8 +41,3 @@ class CurrentUserSerializer(ModelSerializer):
             'phone_number',
             'address',
         ]
-
-
-class RegisteredCompleteUserSerializer(Serializer):
-    auth_token = serializers.CharField(max_length=128)
-    user = CurrentUserSerializer()
