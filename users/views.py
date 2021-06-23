@@ -66,7 +66,8 @@ class RegisterPreUserView(CreateAPIView):
     permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
-        username = serializer.data['username']
+        username = serializer.validated_data['username']
+        email = serializer.validated_data['email']
         valid_timedelta = datetime.now() - settings.TIMEDELTA
 
         # checking the unique username in the User table
@@ -77,6 +78,15 @@ class RegisterPreUserView(CreateAPIView):
             if PreUser.objects.filter(username=username,
                                       created_at__gte=valid_timedelta).exists():
                 raise ValidationError({"unique": "this username is already reserved."})
+
+        # checking the unique email in the User table
+        if User.objects.filter(email=email).exists():
+            raise ValidationError({"unique": "A user with that email already exists."})
+        else:
+            # checking the unique email that has not expired in the Preuser table
+            if PreUser.objects.filter(email=email,
+                                      created_at__gte=valid_timedelta).exists():
+                raise ValidationError({"unique": "this email is already reserved."})
 
         uuid_token = uuid.uuid4()
         serializer.save(uuid_token=uuid_token)
