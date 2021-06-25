@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users.apps.UsersConfig',
     'products',
+    'mediafiles',
     'orders.apps.OrdersConfig',
     'django_filters',
     'carts.apps.CartsConfig',
