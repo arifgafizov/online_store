@@ -43,6 +43,11 @@ class OrderViewSet(mixins.CreateModelMixin,
     def client_token(self,  request, *args, **kwargs):
         # getting order and validation
         order_id = kwargs['pk']
+        try:
+            order_id = int(order_id)
+        except (TypeError, ValueError):
+            return Response(data={'reason': "order id is must integer"}, status=status.HTTP_400_BAD_REQUEST)
+
         order = get_object_or_404(Order, pk=order_id)
         if order.status != ORDER_STATUS_CREATED:
             return Response(data={'reason': f"can't processed order in status {order.status}"},\
