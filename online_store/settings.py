@@ -202,7 +202,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR/"static"
 
-MEDIA_ITEMS_IMAGE_DIR = 'products_images'
+MEDIA_ROOT = BASE_DIR/"media"
 
 # payment system
 gateway = braintree.BraintreeGateway(
