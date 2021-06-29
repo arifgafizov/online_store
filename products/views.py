@@ -8,7 +8,7 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from .filters import ProductFilter
 from .models import Product
 from .paginations import ProductPageNumberPagination
-from .serializers import ProductSerializer, AddProductSerializer
+from .serializers import ProductSerializer, AddNewProductSerializer
 
 
 class ProductViewSet(ModelViewSet):
@@ -24,7 +24,7 @@ class ProductViewSet(ModelViewSet):
 
 class AddProductView(mixins.CreateModelMixin, GenericViewSet):
     queryset = Product.objects.all()
-    serializer_class = AddProductSerializer
+    serializer_class = AddNewProductSerializer
 
 
 class IndexView(TemplateView):
