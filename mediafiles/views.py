@@ -12,7 +12,6 @@ class FileUploadView(views.APIView):
     permission_classes = [AllowAny]
     parser_classes = [MultiPartParser]
 
-
     def post(self, request, domain):
 
         def save_file(path, f):
@@ -28,4 +27,6 @@ class FileUploadView(views.APIView):
 
         save_file(path_to_file, up_file)
 
-        return Response(status.HTTP_201_CREATED)
+        upload_path = 'http://127.0.0.1:8000' + settings.MEDIA_URL + path_to_file.split('media/')[-1]
+
+        return Response(data={'file': upload_path}, status=status.HTTP_201_CREATED)
