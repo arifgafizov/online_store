@@ -42,6 +42,7 @@ api_urlpatterns = [
     path('users/', include('users.urls')),
     path('', include('carts.urls')),
     path('', include('orders.urls')),
+    path('', include('mediafiles.urls')),
 ]
 
 urlpatterns = [
