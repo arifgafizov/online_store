@@ -9,10 +9,12 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.conf import settings
 
+from mediafiles.serializers import JWTTokenSerializer
+
 
 class FileUploadView(views.APIView):
     # TODO декодировать токен и время его жизни
-    # TODO Проверить расширение файла и домена из payload на соответствие domain и file_extension
+    # TODO Проверить расширение файла и домена из payload на соответствие domain аргументу пост запроса и file_extension
     # TODO сравнить размер файла на размер на который получил разрешение с отправленым или вернуть 403 error
     permission_classes = [AllowAny]
     parser_classes = [MultiPartParser]
@@ -41,9 +43,16 @@ class FileUploadView(views.APIView):
 
 # TODO эндпоинт получение JWT токена ассиметричные. Сгенирировать пару открытый и закрытый ключ по алгоритму RS256
 class JWTTokenView(generics.GenericAPIView):
-    # IsAdminUser
+    serializer_class = JWTTokenSerializer
 
     def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        domain = serializer.data['domain']
+        extension = serializer.data['extension']
+        file_size = serializer.data['file_size']
+        print(domain, extension, file_size, type(file_size))
 
         JWT_ALGORITHM = 'RS256'
         JWT_EXP_DELTA_SECONDS = 60
@@ -67,4 +76,4 @@ class JWTTokenView(generics.GenericAPIView):
         # print('decoded')
         # print(decoded)
 
-        return Response({'token': jwt_token}, status=status.HTTP_200_OK)
+        return Response({'token': jwt_token}, status=status.HTTP_201_CREATED)
