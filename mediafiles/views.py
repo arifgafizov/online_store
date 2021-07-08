@@ -24,37 +24,41 @@ class FileUploadView(views.APIView):
     def post(self, request, domain):
         #  getting jwt token from headers Authorization
         jwt_token = request.headers.get('Authorization')
-        print("jwt_token")
-        print(jwt_token)
-        # decoding jwt token
+
+        # reading a public key into public_key variable and decoding jwt token
         with open('/home/arif/PycharmProjects/online_store/keys_jwt/jwtRS256.key.pub', 'r') as key:
             public_key = key.read()
         decoded = jwt.decode(jwt_token, public_key, algorithms=["RS256"])
-        print('decoded')
-        print(decoded)
-
-        if decoded['domain'] != domain:
-            return Response(data={'reason': "Invalid domain."}, status=status.HTTP_403_FORBIDDEN)
-
-        def save_file(path, f):
-            with open(path, 'wb+') as destination:
-                for chunk in f.chunks():
-                    destination.write(chunk)
 
         up_file = request.data['file']
         now = datetime.now()
         media_dir = os.path.join(settings.MEDIA_ROOT, domain, now.strftime("%Y%m%d"))
         os.makedirs(media_dir, exist_ok=True)
         file_extension = str(up_file).split('.')[-1]
+
+        # checking for valid domain
+        if decoded['domain'] != domain:
+            return Response(data={'reason': "Invalid domain."}, status=status.HTTP_403_FORBIDDEN)
+
+        # checking for valid extension
         if decoded['extension'] != file_extension:
             return Response(data={'reason': "Invalid file extension."}, status=status.HTTP_403_FORBIDDEN)
-        print(decoded['exp'])
-        print(now.timestamp())
-        print(decoded['exp'] <= now.timestamp())
-        if decoded['exp'] > now.timestamp():
+
+        # checking for valid file size
+        if decoded['file_size'] != up_file.size:
+            return Response(data={'reason': "Invalid file size."}, status=status.HTTP_403_FORBIDDEN)
+
+        # checking for expired of jwt token
+        if decoded['exp'] <= now.timestamp():
             return Response(data={'reason': "The jwt token expired."}, status=status.HTTP_403_FORBIDDEN)
+
         file_name = f'{int(now.timestamp())}_{uuid4()}.{file_extension}'
         path_to_file = os.path.join(media_dir, file_name)
+
+        def save_file(path, f):
+            with open(path, 'wb+') as destination:
+                for chunk in f.chunks():
+                    destination.write(chunk)
 
         save_file(path_to_file, up_file)
 
