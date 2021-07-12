@@ -15,20 +15,22 @@ from mediafiles.serializers import JWTTokenSerializer
 
 
 class FileUploadView(views.APIView):
-    # TODO декодировать токен и время его жизни
-    # TODO Проверить расширение файла и домена из payload на соответствие domain аргументу пост запроса и file_extension
-    # TODO сравнить размер файла на размер на который получил разрешение с отправленым или вернуть 403 error
     permission_classes = [AllowAny]
     parser_classes = [MultiPartParser]
 
     def post(self, request, domain):
         #  getting jwt token from headers Authorization
-        jwt_token = request.headers.get('Authorization')
+        array_jwt_token = request.headers.get('Authorization').split(' ')
+        if len(array_jwt_token) != 2:
+            raise ValidationError({'reason': "Invalid JWT token."}, code=status.HTTP_403_FORBIDDEN)
+        jwt_token = array_jwt_token[-1]
 
         # reading a public key into public_key variable and decoding jwt token
-        with open('/home/arif/PycharmProjects/online_store/keys_jwt/jwtRS256.key.pub', 'r') as key:
-            public_key = key.read()
-        decoded = jwt.decode(jwt_token, public_key, algorithms=["RS256"])
+        public_key = settings.JWT_PUBLIC_KEY
+        try:
+            decoded = jwt.decode(jwt_token, public_key, algorithms=["RS256"])
+        except:
+            raise ValidationError({'reason': "Invalid JWT token."}, code=status.HTTP_403_FORBIDDEN)
 
         up_file = request.data['file']
         now = datetime.now()
@@ -67,7 +69,6 @@ class FileUploadView(views.APIView):
         return Response(data={'file': upload_path}, status=status.HTTP_201_CREATED)
 
 
-# TODO эндпоинт получение JWT токена ассиметричные. Сгенирировать пару открытый и закрытый ключ по алгоритму RS256
 class JWTTokenView(generics.GenericAPIView):
     serializer_class = JWTTokenSerializer
 
@@ -82,11 +83,8 @@ class JWTTokenView(generics.GenericAPIView):
 
         JWT_ALGORITHM = 'RS256'
         JWT_EXP_DELTA_SECONDS = 60
-        with open('/home/arif/PycharmProjects/online_store/keys_jwt/jwtRS256.key', 'r') as key:
-            private_key = key.read()
-        #TODO загрузить файл . Получение от клиента - Домен, расширение, размер файла
-        # проверить данные от клиента на соответствие домена и расширения и проверка на размер файла. и положить их в тело jwt tokena
-        # добавить время жизни токена в 1 минуту
+        # reading a private key into private_key variable
+        private_key = settings.JWT_PRIVATE_KEY
         user_id = None if self.request.user.is_anonymous else self.request.user.id
 
         # checking for compliance of the domain and extension and for the file size
