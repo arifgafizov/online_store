@@ -4,6 +4,8 @@ __pycache__/
 .env
 /static/
 /media/
+/keys_jwt/
+!/keys_jwt/.gitkeep
 
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
