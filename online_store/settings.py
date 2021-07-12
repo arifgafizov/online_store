@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 import datetime
+import pathlib
 from pathlib import Path
 import sentry_sdk
 from dotenv import load_dotenv
@@ -231,3 +232,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 TIMEDELTA = datetime.timedelta(days=1)
 
 DOMEN = 'http://127.0.0.1:8080/complete-signup'
+
+# reading JWT KEYS
+JWT_PRIVATE_KEY = pathlib.Path(BASE_DIR, 'keys_jwt/jwtRS256.key').read_text()
+JWT_PUBLIC_KEY = pathlib.Path(BASE_DIR, 'keys_jwt/jwtRS256.key.pub').read_text()
