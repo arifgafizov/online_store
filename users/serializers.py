@@ -40,4 +40,5 @@ class CurrentUserSerializer(ModelSerializer):
             'middle_name',
             'phone_number',
             'address',
+            'is_superuser',
         ]
