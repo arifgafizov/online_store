@@ -9,6 +9,7 @@ class Product(BaseModel):
     weight = models.IntegerField('вес')
     price = models.DecimalField('цена', max_digits=13, decimal_places=2)
     file_link = models.CharField('файл', max_length=256)
+    is_deleted = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'товар'
