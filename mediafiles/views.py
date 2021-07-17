@@ -28,7 +28,9 @@ class FileUploadView(views.APIView):
         # reading a public key into public_key variable and decoding jwt token
         public_key = settings.JWT_PUBLIC_KEY
         try:
-            decoded = jwt.decode(jwt_token, public_key, algorithms=["RS256"])
+            decoded = jwt.decode(jwt_token, public_key, algorithms=["RS256"], verify_exp=True)
+        except jwt.ExpiredSignatureError:
+            raise ValidationError({'reason': "JWT token expired."}, code=status.HTTP_401_UNAUTHORIZED)
         except:
             raise ValidationError({'reason': "Invalid JWT token."}, code=status.HTTP_403_FORBIDDEN)
 
@@ -49,10 +51,6 @@ class FileUploadView(views.APIView):
         # checking for valid file size
         if decoded['file_size'] != up_file.size:
             return Response(data={'reason': "Invalid file size."}, status=status.HTTP_403_FORBIDDEN)
-
-        # checking for expired of jwt token
-        if decoded['exp'] <= now.timestamp():
-            return Response(data={'reason': "The jwt token expired."}, status=status.HTTP_403_FORBIDDEN)
 
         file_name = f'{int(now.timestamp())}_{uuid4()}.{file_extension}'
         path_to_file = os.path.join(media_dir, file_name)
