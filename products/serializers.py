@@ -23,3 +23,10 @@ class CRUDProductSerializer(ModelSerializer):
             'created_at',
             'updated_at',
             'additional_info']
+
+
+class ProductSearchSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'title', 'description']
+

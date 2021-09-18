@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_elasticsearch_dsl',
+    'search.apps.SearchConfig',
     'drf_yasg',
     'rest_framework',
     'users.apps.UsersConfig',
@@ -236,3 +238,13 @@ DOMEN = 'http://127.0.0.1:8080/complete-signup'
 # reading JWT KEYS
 JWT_PRIVATE_KEY = pathlib.Path(BASE_DIR, 'keys_jwt/jwtRS256.key').read_text()
 JWT_PUBLIC_KEY = pathlib.Path(BASE_DIR, 'keys_jwt/jwtRS256.key.pub').read_text()
+
+
+# Elasticsearch
+# https://django-elasticsearch-dsl.readthedocs.io/en/latest/settings.html
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}

@@ -28,6 +28,10 @@ docker run -d --name web-store --network="local-apps" -p 8000:8000 -v ~/online_s
 ```
 
 ```bash
+docker run --name local-elasticsearch -p 9200:9200 -p 9300:9300 --network="local-apps" -e "discovery.type=single-node" -d elasticsearch:7.14.1
+```
+
+```bash
 docker run --rm --network="local-apps" -v ~/online_store:/web_django \
   web-django python3 ./manage.py migrate
 ```
